@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.smokingstatus.ae.KuRuleBasedClassifierAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.smokingstatus.ae.KuRuleBasedClassifierAnnotator</name>
+        <description>Licensed to the Apache Software Foundation (ASF) under one&#13;
+or more contributor license agreements.  See the NOTICE file&#13;
+distributed with this work for additional information&#13;
+regarding copyright ownership.  The ASF licenses this file&#13;
+to you under the Apache License, Version 2.0 (the&#13;
+"License"); you may not use this file except in compliance&#13;
+with the License.  You may obtain a copy of the License at&#13;
+&#13;
+  http://www.apache.org/licenses/LICENSE-2.0&#13;
+&#13;
+Unless required by applicable law or agreed to in writing,&#13;
+software distributed under the License is distributed on an&#13;
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY&#13;
+KIND, either express or implied.  See the License for the&#13;
+specific language governing permissions and limitations&#13;
+under the License.</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters/>
+        <configurationParameterSettings/>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

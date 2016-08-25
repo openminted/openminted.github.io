@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">CorrectionsContextualizer</resourceShortName>
+    <resourceName lang="en">CorrectionsContextualizer</resourceName>
+    <description lang="en">This component assumes that some spell checker has already been applied upstream (e.g. Jazzy).
+It then uses ngram frequencies from a frequency provider in order to rank the provided corrections.</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Spelling/Grammar</toolServiceSubtype>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Dictionary Pluggable Soft TF/IDF Matcher</resourceShortName>
+    <resourceName lang="en">Dictionary Pluggable Soft TF/IDF Matcher</resourceName>
+    <description lang="en">Tests input tokens whether they belong to an entry in the specified dictionary using SecondString Soft TF/IDF. The dictionary should have suffix of .list for its file name, and its format should be (Format: key1 TAB alias11 TAB alias12 ... NEWLINE key2 TAB alias21 TAB alias22 ...)</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.syntactic.Token</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.semantic.DictionaryNamedEntity</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

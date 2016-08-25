@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.core.ae.CopyAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.core.ae.CopyAnnotator</name>
+        <description>Utility annotator that copy's data from an existing JCas object into a new
+JCas object.</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters>
+            <configurationParameter>
+                <name>srcObjClass</name>
+                <description>Name of source class</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>destObjClass</name>
+                <description>Name of destination class</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>dataBindMap</name>
+                <description>Mapping between source methods and destination methods in a bar ("|") separated format</description>
+                <type>String</type>
+                <multiValued>true</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+        </configurationParameters>
+        <configurationParameterSettings/>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

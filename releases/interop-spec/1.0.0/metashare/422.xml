@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">MorphaLemmatizer</resourceShortName>
+    <resourceName lang="en">MorphaLemmatizer</resourceName>
+    <description lang="en">Lemmatize based on a finite-state machine. Uses the &lt;a href="https://github.com/knowitall/morpha"&gt;
+Java port&lt;/a&gt; of &lt;a href="http://www.informatics.sussex.ac.uk/research/groups/nlp/carroll/morph.html"&gt;Morpha&lt;/a&gt;.
+
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Minnen, G., J. Carroll and D. Pearce (2001). Applied morphological 
+processing of English, Natural Language Engineering, 7(3). 207-223.&lt;/li&gt;
+&lt;/ul&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Lemmatizer</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

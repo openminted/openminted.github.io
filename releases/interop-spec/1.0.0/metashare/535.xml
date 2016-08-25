@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">GENIA Tagger</resourceShortName>
+    <resourceName lang="en">GENIA Tagger</resourceName>
+    <description lang="en">Tags biological named entities: proteins, cell lines, cell types, DNAs, and RNAs. It has its own tokeniser, part-of-speech tagger, and shallow parser. The models were trained on the GENIA corpus. 
+
+Project website: http://www.nactem.ac.uk/GENIA/tagger/</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Tagger</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.syntactic.Sentence</annotationType>
+        <annotationType>org.u_compare.shared.syntactic.Token</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.syntactic.RichToken</annotationType>
+        <annotationType>jp.ac.u_tokyo.s.is.www_tsujii.tools.geniatagger.Chunk</annotationType>
+        <annotationType>org.u_compare.shared.semantic.bio.RNA</annotationType>
+        <annotationType>org.u_compare.shared.semantic.bio.Protein</annotationType>
+        <annotationType>org.u_compare.shared.semantic.bio.DNA</annotationType>
+        <annotationType>org.u_compare.shared.semantic.bio.CellType</annotationType>
+        <annotationType>org.u_compare.shared.semantic.bio.CellLine</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

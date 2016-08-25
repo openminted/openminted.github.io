@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">BratWriter</resourceShortName>
+    <resourceName lang="en">BratWriter</resourceName>
+    <description lang="en">Writer for the brat annotation format.
+
+&lt;p&gt;Known issues:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/nlplab/brat/issues/791"&gt;Brat is unable to read relation 
+attributes created by this writer.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;PARAM_TYPE_MAPPINGS not implemented yet&lt;/li&gt;
+&lt;/ul&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Writer</toolServiceSubtype>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

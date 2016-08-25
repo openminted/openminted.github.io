@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">MstParser</resourceShortName>
+    <resourceName lang="en">MstParser</resourceName>
+    <description lang="en">Dependency parsing using MSTParser.
+&lt;p&gt;
+Wrapper for the MSTParser (&lt;b&gt;high memory requirements&lt;/b&gt;). More information about the parser
+can be found &lt;a href="http://www.seas.upenn.edu/~strctlrn/MSTParser/MSTParser.html"&gt;here&lt;/a&gt; &lt;a
+href="http://sourceforge.net/projects/mstparser/"&gt;here&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;
+The MSTParser models tend to be very large, e.g. the &lt;a
+href="http://nlp.stanford.edu/software/stanford-dependencies.shtml"&gt;Eisner&lt;/a&gt; model is about 600
+MB uncompressed. With this model, parsing a simple sentence with MSTParser requires about 3 GB
+heap memory.
+&lt;/p&gt;
+&lt;p&gt;
+This component feeds MSTParser only with the FORM (token) and POS (part-of-speech) fields. LEMMA,
+CPOS, and other columns from the CONLL 2006 format are not generated (cf.
+mstparser.DependencyInstance DependencyInstance).
+&lt;/p&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Parser</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

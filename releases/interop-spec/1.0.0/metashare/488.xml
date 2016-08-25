@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">ILSP Chunker</resourceShortName>
+    <resourceName lang="en">ILSP Chunker</resourceName>
+    <description lang="en"/>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>0.9</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Chunker</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>gr.ilsp.types.Token</annotationType>
+        <annotationType>gr.ilsp.types.Sentence</annotationType>
+        <annotationType>gr.ilsp.types.Paragraph</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>gr.ilsp.types.Token</annotationType>
+        <annotationType>gr.ilsp.types.Sentence</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

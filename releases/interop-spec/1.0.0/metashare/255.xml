@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Boilerpipe Content Detection</resourceShortName>
+    <resourceName lang="en">Boilerpipe Content Detection</resourceName>
+    <description lang="en">Uses boilerpipe to determine which sections of a document are interesting content and which are just boilerplate</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>unknown</version>
+  </versionInfo>
+  <resourceDocumentationInfo>
+    <documentation>
+      <documentInfo>
+        <url>http://gate.ac.uk/userguide/sec:misc-creole:boilerpipe</url>
+      </documentInfo>
+    </documentation>
+  </resourceDocumentationInfo>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Filtering</toolServiceSubtype>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

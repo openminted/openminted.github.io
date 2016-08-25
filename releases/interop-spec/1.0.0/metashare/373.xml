@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">WikipediaTemplateFilteredArticleReader</resourceShortName>
+    <resourceName lang="en">WikipediaTemplateFilteredArticleReader</resourceName>
+    <description lang="en">Reads all pages that contain or do not contain the templates specified in the template whitelist
+and template blacklist.
+
+&lt;p&gt;
+It is possible to just define a whitelist OR a blacklist. If both whitelist and blacklist are
+provided, the articles are chosen that DO contain the templates from the whitelist and at the
+same time DO NOT contain the templates from the blacklist (= the intersection of the
+"whitelist page set" and the "blacklist page set")
+&lt;/p&gt;
+
+&lt;p&gt;
+This reader only works if template tables have been generated for the JWPL database using the
+WikipediaTemplateInfoGenerator.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;strong&gt;NOTE:&lt;/strong&gt; This reader directly extends the WikipediaReaderBase and not the
+WikipediaStandardReaderBase
+&lt;/p&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Reader</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.io.jwpl.type.DBConfig</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

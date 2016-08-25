@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.preprocessor.ae.CdaCasInitializer</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.preprocessor.ae.CdaCasInitializer</name>
+        <description>Bootstraps the CAS by:&#13;
+&lt;ol&gt;&#13;
+&lt;li&gt;Transforms document's original CDA text into plain text,&#13;
+inserting section (segment) markers into text .&lt;/li&gt;&#13;
+&lt;li&gt;Transformation also inserts hyphens into words that should be hyphenated&lt;/li&gt;&#13;
+&lt;li&gt;Stores the resulting text in a new View (which has its own Sofa)&lt;/li&gt;&#13;
+&lt;li&gt;Detects sections and adds Segment (aka section) annotations &lt;/li&gt;&#13;
+&lt;li&gt;Extracts document level data and stores in CAS as Property annotations.&lt;/li&gt;&#13;
+&lt;/ol&gt;</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters>
+            <configurationParameter>
+                <name>DtdFile</name>
+                <description>Path to File that contains the DTD file</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>HyphenFile</name>
+                <description>Path to File that contains the hypenated file</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+        </configurationParameters>
+        <configurationParameterSettings>
+            <nameValuePair>
+                <name>DtdFile</name>
+                <value>
+                    <string>org/apache/ctakes/preprocessor/cda/NotesIIST_RTF.DTD</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>HyphenFile</name>
+                <value>
+                    <string>org/apache/ctakes/preprocessor/tokenizer/hyphenated.txt</string>
+                </value>
+            </nameValuePair>
+        </configurationParameterSettings>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

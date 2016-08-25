@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.drugner.ae.DrugMentionAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.drugner.ae.DrugMentionAnnotator</name>
+        <description>Finds tokens based on context. There are two major groupings or ranges that&#13;
+will be used to create the additional annotations needed to handle the drug&#13;
+mentions used to represent the status changes.</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters/>
+        <configurationParameterSettings/>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

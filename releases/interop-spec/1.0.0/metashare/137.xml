@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Show/Hide Resources</resourceShortName>
+    <resourceName lang="en">Show/Hide Resources</resourceName>
+    <description lang="en">Show resources that would otherwise be hidden, e.g. resources created for internal use by other resources</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>unknown</version>
+  </versionInfo>
+  <resourceDocumentationInfo>
+    <documentation>
+      <documentInfo>
+        <url>http://gate.ac.uk/userguide/sec:misc-creole:dev-tools</url>
+      </documentInfo>
+    </documentation>
+  </resourceDocumentationInfo>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

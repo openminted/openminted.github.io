@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.relationextractor.ae.baselines.Baseline2EntityMentionPairRelationExtractorAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.relationextractor.ae.baselines.Baseline2EntityMentionPairRelationExtractorAnnotator</name>
+        <description>Annotate location_of relation between two entities in sentences with multiple anatomical sites
+and a single legitimate location_of arg2. Use the pair of arguments that are the closest to each other.</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters>
+            <configurationParameter>
+                <name>ProbabilityOfKeepingANegativeExample</name>
+                <description>probability that a negative example should be retained for training</description>
+                <type>Float</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>classifierFactoryClassName</name>
+                <description>provides the full name of the ClassifierFactory class to be used.</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>dataWriterFactoryClassName</name>
+                <description>provides the full name of the DataWriterFactory class to be used.</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>isTraining</name>
+                <description>determines whether this annotator is writing training data or using a classifier to annotate. Normally inferred automatically based on whether or not a DataWriterFactory class has been set.</description>
+                <type>Boolean</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+        </configurationParameters>
+        <configurationParameterSettings>
+            <nameValuePair>
+                <name>classifierFactoryClassName</name>
+                <value>
+                    <string>org.cleartk.ml.jar.JarClassifierFactory</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>dataWriterFactoryClassName</name>
+                <value>
+                    <string>org.cleartk.ml.jar.DefaultDataWriterFactory</string>
+                </value>
+            </nameValuePair>
+        </configurationParameterSettings>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

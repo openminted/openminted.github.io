@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">OpenNLPNEDetector</resourceShortName>
+    <resourceName lang="en">OpenNLPNEDetector</resourceName>
+    <description lang="en">Detects named entities in text and creates corresponding entity annotations that span the found entities.  Uses the OpenNLP MaxEnt named entity Detector.  Each entity class has a separate MaxEnt model file.  All model files must be stored in a single model file directory and use the following naming convention: "class.bin.gz", where "class" is the entity class name and ".bin.gz" must appear as shown, e.g., "person.bin.gz".  
+
+This analysis engine takes a parameter called "EntityTypeMapping" which maps each entity class name to an entity annotation type.  The entity class name must match a model file in the model file directory, and the entity annotation type must be defined in the type system and have a corresponding JCas Java class.</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.apache.uima.examples.opennlp.Sentence</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Token</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.apache.uima.examples.opennlp.Person</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Organization</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Time</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Date</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Location</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Percentage</annotationType>
+        <annotationType>org.apache.uima.examples.opennlp.Money</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

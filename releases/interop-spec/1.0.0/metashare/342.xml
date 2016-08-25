@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">BinaryCasWriter</resourceShortName>
+    <resourceName lang="en">BinaryCasWriter</resourceName>
+    <description lang="en">Write CAS in one of the UIMA binary formats.
+
+&lt;table&gt;
+&lt;caption&gt;Supported formats&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th&gt;Format&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Type system on load&lt;/th&gt;
+&lt;th&gt;CAS Addresses preserved&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;S&lt;/td&gt;
+&lt;td&gt;CAS structures are dumped to disc as they are using Java serialization (CASSerializer
+). Because these structures are pre-allocated in memory at larger sizes than what is actually
+required, files in this format may be larger than necessary. However, the CAS addresses of
+feature structures are preserved in this format. When the data is loaded back into a CAS, it must
+have been initialized with the same type system as the original CAS.&lt;/td&gt;
+&lt;td&gt;must be the same&lt;/td&gt;
+&lt;td&gt;yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;S+&lt;/td&gt;
+&lt;td&gt;CAS structures are dumped to disc as they are using Java serialization as in form 0, but
+now using the CASCompleteSerializer which includes CAS metadata like type system and
+index repositories.&lt;/td&gt;
+&lt;td&gt;is reinitialized&lt;/td&gt;
+&lt;td&gt;yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;CAS structures are dumped to disc as they are using Java serialization (CASSerializer
+). This is basically the same as format S but includes a UIMA header and can be read
+using org.apache.uima.cas.impl.Serialization#deserializeCAS.&lt;/td&gt;
+&lt;td&gt;must be the same&lt;/td&gt;
+&lt;td&gt;yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;
+UIMA binary serialization saving all feature structures (reachable or not). This format
+internally uses gzip compression and a binary representation of the CAS, making it much more
+efficient than format 0.&lt;/td&gt;
+&lt;td&gt;must be the same&lt;/td&gt;
+&lt;td&gt;yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;
+UIMA binary serialization as format 4, but saving only reachable feature structures.&lt;/td&gt;
+&lt;td&gt;must be the same&lt;/td&gt;
+&lt;td&gt;no&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6+&lt;/td&gt;
+&lt;td&gt;
+UIMA binary serialization as format 6, but also contains the type system defintion. This allows
+the BinaryCasReader to load data leniently into a CAS that has been initialized with a
+different type system.&lt;/td&gt;
+&lt;td&gt;lenient loading&lt;/td&gt;
+&lt;td&gt;no&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Writer</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

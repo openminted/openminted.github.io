@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Conll2012Reader</resourceShortName>
+    <resourceName lang="en">Conll2012Reader</resourceName>
+    <description lang="en">&lt;p&gt;Reads a file in the CoNLL-2009 format.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Document ID - &lt;b&gt;(ignored)&lt;/b&gt; This is a variation on the document filename.&lt;/li&gt;
+&lt;li&gt;Part number - &lt;b&gt;(ignored)&lt;/b&gt; Some files are divided into multiple parts numbered as 000,
+001, 002, ... etc.&lt;/li&gt;
+&lt;li&gt;Word number - &lt;b&gt;(ignored)&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Word itself - &lt;b&gt;(document text)&lt;/b&gt; This is the token as segmented/tokenized in the
+Treebank. Initially the *_skel file contain the placeholder [WORD] which gets replaced by the
+actual token from the Treebank which is part of the OntoNotes release.&lt;/li&gt;
+&lt;li&gt;Part-of-Speech - &lt;b&gt;(POS)&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Parse bit - &lt;b&gt;(Constituent)&lt;/b&gt; This is the bracketed structure broken before the first open
+parenthesis in the parse, and the word/part-of-speech leaf replaced with a *. The full parse can
+be created by substituting the asterix with the "([pos] [word])" string (or leaf) and
+concatenating the items in the rows of that column.&lt;/li&gt;
+&lt;li&gt;Predicate lemma - &lt;b&gt;(Lemma)&lt;/b&gt; The predicate lemma is mentioned for the rows for which we
+have semantic role information. All other rows are marked with a "-"&lt;/li&gt;
+&lt;li&gt;Predicate Frameset ID - &lt;b&gt;(SemanticPredicate)&lt;/b&gt; This is the PropBank frameset ID of the
+predicate in Column 7.&lt;/li&gt;
+&lt;li&gt;Word sense - &lt;b&gt;(ignored)&lt;/b&gt; This is the word sense of the word in Column 3.&lt;/li&gt;
+&lt;li&gt;Speaker/Author - &lt;b&gt;(ignored)&lt;/b&gt; This is the speaker or author name where available. Mostly
+in Broadcast Conversation and Web Log data.&lt;/li&gt;
+&lt;li&gt;Named Entities - &lt;b&gt;(NamedEntity)&lt;/b&gt; These columns identifies the spans representing various
+named entities.&lt;/li&gt;
+&lt;li&gt;Predicate Arguments - &lt;b&gt;(SemanticPredicate)&lt;/b&gt; There is one column each of predicate
+argument structure information for the predicate mentioned in Column 7.&lt;/li&gt;
+&lt;li&gt;Coreference - &lt;b&gt;(CoreferenceChain)&lt;/b&gt; Coreference chain information encoded in a
+parenthesis structure.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Sentences are separated by a blank new line.&lt;/p&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Reader</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticPredicate</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticArgument</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Conll2000Reader</resourceShortName>
+    <resourceName lang="en">Conll2000Reader</resourceName>
+    <description lang="en">&lt;p&gt;Reads the Conll 2000 chunking format.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+He        PRP  B-NP
+reckons   VBZ  B-VP
+the       DT   B-NP
+current   JJ   I-NP
+account   NN   I-NP
+deficit   NN   I-NP
+will      MD   B-VP
+narrow    VB   I-VP
+to        TO   B-PP
+only      RB   B-NP
+#         #    I-NP
+1.8       CD   I-NP
+billion   CD   I-NP
+in        IN   B-PP
+September NNP  B-NP
+.         .    O
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;FORM - token&lt;/li&gt;
+&lt;li&gt;POSTAG - part-of-speech tag&lt;/li&gt;
+&lt;li&gt;CHUNK - chunk (BIO encoded)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Sentences are separated by a blank new line.&lt;/p&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Reader</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

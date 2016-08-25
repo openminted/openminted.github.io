@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">MalletTopicsProportionsSortedWriter</resourceShortName>
+    <resourceName lang="en">MalletTopicsProportionsSortedWriter</resourceName>
+    <description lang="en">Write the topic proportions according to an LDA topic model to an output file. The proportions
+need to be inferred in a previous step using MalletTopicModelInferencer.</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Writer</toolServiceSubtype>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

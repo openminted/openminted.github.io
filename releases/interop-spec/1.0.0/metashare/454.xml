@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">LanguageIdentifier</resourceShortName>
+    <resourceName lang="en">LanguageIdentifier</resourceName>
+    <description lang="en">&lt;p&gt;Detection based on character n-grams. Uses the &lt;a href="http://textcat.sourceforge.net"&gt;Java
+Text Categorizing Library&lt;/a&gt; based on a technique by Cavnar and Trenkle.&lt;/p&gt;
+
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cavnar, W. B. and J. M. Trenkle (1994). N-Gram-Based Text Categorization. 
+In Proceedings of Third Annual Symposium on Document Analysis and Information Retrieval, 
+Las Vegas, NV, UNLV Publications/Reprographics, pp. 161-175, 11-13 April 1994.&lt;/li&gt;&lt;/ul&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Language Identifier</toolServiceSubtype>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

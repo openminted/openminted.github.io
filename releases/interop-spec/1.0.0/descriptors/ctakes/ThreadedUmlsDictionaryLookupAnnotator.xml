@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.dictionary.lookup.ae.ThreadedUmlsDictionaryLookupAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.dictionary.lookup.ae.ThreadedUmlsDictionaryLookupAnnotator</name>
+        <description>UIMA annotator that identified entities based on lookup.
+Special implementation to pre bundle the UMLS SnowmedCT/RxNorm dictionaries
+Performs a check for user's UMLS licence at init time via their RESTful API
+User's will need to configure their UMLS username/password in their config
+Date: 1/9/13</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters/>
+        <configurationParameterSettings/>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

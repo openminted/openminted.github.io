@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">ILSP Dependency Parser</resourceShortName>
+    <resourceName lang="en">ILSP Dependency Parser</resourceName>
+    <description lang="en">ILSP Dependency Parser is a tool trained on the Greek Dependency Treebank (Prokopidis et al., 2005), a resource which comprises data annotated at several linguistic levels. Training data at the level of syntax consisted of ~150+ KWords annotated using a dependency-based syntactic scheme that includes 25 main relations. Different types of parsers (transition-based. graph-based, Maltparser, MateParser) are used during training and application of learned models. ILSP Dependency Parser is used in parsing EL POS-tagged and lemmatized sentences.</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.15</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Parser</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>gr.ilsp.types.Paragraph</annotationType>
+        <annotationType>gr.ilsp.types.Sentence</annotationType>
+        <annotationType>gr.ilsp.types.Token</annotationType>
+        <annotationType>gr.ilsp.types.POSTag</annotationType>
+        <annotationType>gr.ilsp.types.Lemma</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>gr.ilsp.types.Paragraph</annotationType>
+        <annotationType>gr.ilsp.types.Sentence</annotationType>
+        <annotationType>gr.ilsp.types.Token</annotationType>
+        <annotationType>gr.ilsp.types.POSTag</annotationType>
+        <annotationType>gr.ilsp.types.Lemma</annotationType>
+        <annotationType>gr.ilsp.types.DependencyRelation</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

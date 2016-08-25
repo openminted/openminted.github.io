@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Tweet Normaliser</resourceShortName>
+    <resourceName lang="en">Tweet Normaliser</resourceName>
+    <description lang="en">Normalise texts in tweets (convert into standard English spelling mistakes, colloquialisms, typing variations and so on)</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>unknown</version>
+  </versionInfo>
+  <resourceDocumentationInfo>
+    <documentation>
+      <documentInfo>
+        <url>http://gate.ac.uk/userguide/sec:social:twitter:prs</url>
+      </documentInfo>
+    </documentation>
+  </resourceDocumentationInfo>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Normalizer</toolServiceSubtype>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

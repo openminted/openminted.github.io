@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">MetaMap Annotator</resourceShortName>
+    <resourceName lang="en">MetaMap Annotator</resourceName>
+    <description lang="en">This plugin uses the MetaMap Java API to send GATE document content to MetaMap skrmedpostctl server and PrologBeans mmserver instances running on the given machine/port</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>unknown</version>
+  </versionInfo>
+  <resourceDocumentationInfo>
+    <documentation>
+      <documentInfo>
+        <url>http://gate.ac.uk/userguide/sec:misc-creole:metamap</url>
+      </documentInfo>
+    </documentation>
+  </resourceDocumentationInfo>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

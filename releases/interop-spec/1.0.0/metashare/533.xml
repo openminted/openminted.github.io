@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">GENIA Dependency Parser</resourceShortName>
+    <resourceName lang="en">GENIA Dependency Parser</resourceName>
+    <description lang="en">A dependency parser for biomedical text. The model was trained on the GENIA Treebank.
+
+Original software developed by Tsujii Lab (University of Tokyo) and 
+the Institute for Creative Technologies (University of Southern California).
+Website: http://people.ict.usc.edu/~sagae/parser/gdep/</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Parser</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.syntactic.Sentence</annotationType>
+        <annotationType>org.u_compare.shared.syntactic.Token</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>jp.ac.u_tokyo.s.is.www_tsujii.tools.geniatagger.GeniaToken</annotationType>
+        <annotationType>org.u_compare.shared.syntactic.Dependency</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

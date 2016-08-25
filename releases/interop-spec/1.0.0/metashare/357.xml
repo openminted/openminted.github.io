@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Conll2009Writer</resourceShortName>
+    <resourceName lang="en">Conll2009Writer</resourceName>
+    <description lang="en">&lt;p&gt;Writes a file in the CoNLL-2009 format.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;ID - &lt;b&gt;(ignored)&lt;/b&gt; Token counter, starting at 1 for each new sentence.&lt;/li&gt;
+&lt;li&gt;FORM - &lt;b&gt;(Token)&lt;/b&gt; Word form or punctuation symbol.&lt;/li&gt;
+&lt;li&gt;LEMMA - &lt;b&gt;(Lemma)&lt;/b&gt; Fine-grained part-of-speech tag, where the tagset depends on the
+language, or identical to the coarse-grained part-of-speech tag if not available.&lt;/li&gt;
+&lt;li&gt;PLEMMA - &lt;b&gt;(ignored)&lt;/b&gt; Automatically predicted lemma of FORM&lt;/li&gt;
+&lt;li&gt;POS - &lt;b&gt;(POS)&lt;/b&gt; Fine-grained part-of-speech tag, where the tagset depends on the language,
+or identical to the coarse-grained part-of-speech tag if not available.&lt;/li&gt;
+&lt;li&gt;PPOS - &lt;b&gt;(ignored)&lt;/b&gt; Automatically predicted major POS by a language-specific tagger&lt;/li&gt;
+&lt;li&gt;FEAT - &lt;b&gt;(MorphologicalFeatures)&lt;/b&gt; Unordered set of syntactic and/or morphological features (depending
+on the particular language), separated by a vertical bar (|), or an underscore if not available.&lt;/li&gt;
+&lt;li&gt;PFEAT - &lt;b&gt;(ignored)&lt;/b&gt; Automatically predicted morphological features (if applicable)&lt;/li&gt;
+&lt;li&gt;HEAD - &lt;b&gt;(Dependency)&lt;/b&gt; Head of the current token, which is either a value of ID or zero
+('0'). Note that depending on the original treebank annotation, there may be multiple tokens with
+an ID of zero.&lt;/li&gt;
+&lt;li&gt;PHEAD - &lt;b&gt;(ignored)&lt;/b&gt; Automatically predicted syntactic head&lt;/li&gt;
+&lt;li&gt;DEPREL - &lt;b&gt;(Dependency)&lt;/b&gt; Dependency relation to the HEAD. The set of dependency relations
+depends on the particular language. Note that depending on the original treebank annotation, the
+dependency relation may be meaningfull or simply 'ROOT'.&lt;/li&gt;
+&lt;li&gt;PDEPREL - &lt;b&gt;(ignored)&lt;/b&gt; Automatically predicted dependency relation to PHEAD&lt;/li&gt;
+&lt;li&gt;FILLPRED - &lt;b&gt;(auto-generated)&lt;/b&gt; Contains 'Y' for argument-bearing tokens&lt;/li&gt;
+&lt;li&gt;PRED - &lt;b&gt;(SemanticPredicate)&lt;/b&gt; (sense) identifier of a semantic 'predicate' coming from a
+current token&lt;/li&gt;
+&lt;li&gt;APREDs - &lt;b&gt;(SemanticArgument)&lt;/b&gt; Columns with argument labels for each semantic predicate
+(in the ID order)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Sentences are separated by a blank new line&lt;/p&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Writer</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.MorphologicalFeatures</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticPredicate</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticArgument</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

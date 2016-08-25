@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">TueppReader</resourceShortName>
+    <resourceName lang="en">TueppReader</resourceName>
+    <description lang="en">UIMA collection reader for Tübingen Partially Parsed Corpus of Written German (TüPP-D/Z) XML 
+files. 
+&lt;ul&gt;
+&lt;li&gt;Only the part-of-speech with the best rank (rank 1) is read, if there is a tie between
+multiple tags, the first one from the XML file is read.&lt;/li&gt;
+&lt;li&gt;Only the first lemma (baseform) from the XML file is read.&lt;/li&gt;
+&lt;li&gt;Token are read, but not the specific kind of token (e.g. TEL, AREA, etc.).&lt;/li&gt;
+&lt;li&gt;Article boundaries are not read.&lt;/li&gt;
+&lt;li&gt;Paragraph boundaries are not read.&lt;/li&gt;
+&lt;li&gt;Lemma information is read, but morphological information is not read.&lt;/li&gt;
+&lt;li&gt;Chunk, field, and clause information is not read.&lt;/li&gt;
+&lt;li&gt;Meta data headers are not read.&lt;/li&gt;
+&lt;/ul&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Reader</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.dependency.parser.ae.ClearNLPDependencyParserAE</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.dependency.parser.ae.ClearNLPDependencyParserAE</name>
+        <description>&lt;br&gt;
+This class provides a UIMA wrapper for the CLEAR dependency parser. This parser is available here:
+&lt;p&gt;
+http://code.google.com/p/clearnlp
+&lt;p&gt;
+Please see
+/ClearNLP-wrapper/resources/dependency/README
+for important information pertaining to the models provided for this parser. In particular, note
+that the output of the CLEAR parser is different than that of the Malt parser and so these two
+parsers may not be interchangeable (without some effort) for most use cases.
+&lt;p&gt;</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters>
+            <configurationParameter>
+                <name>ParserModelFileName</name>
+                <description>This parameter provides the file name of the dependency parser model required by the factory method provided by ClearNLPUtil.  If not specified, this analysis engine will use a default model from the resources directory</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>LemmatizerDataFile</name>
+                <description>This parameter provides the data file required for the MorphEnAnalyzer. If not specified, this analysis engine will use a default model from the resources directory</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>UseLemmatizer</name>
+                <description>If true, use the default ClearNLP lemmatizer, otherwise use lemmas from the BaseToken normalizedToken field</description>
+                <type>Boolean</type>
+                <multiValued>false</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+        </configurationParameters>
+        <configurationParameterSettings>
+            <nameValuePair>
+                <name>ParserModelFileName</name>
+                <value>
+                    <string>org/apache/ctakes/dependency/parser/models/dependency/mayo-en-dep-1.3.0.jar</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>LemmatizerDataFile</name>
+                <value>
+                    <string>org/apache/ctakes/dependency/parser/models/lemmatizer/dictionary-1.3.1.jar</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>UseLemmatizer</name>
+                <value>
+                    <boolean>true</boolean>
+                </value>
+            </nameValuePair>
+        </configurationParameterSettings>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities>
+            <capability>
+                <inputs>
+                    <feature>org.apache.ctakes.typesystem.type.syntax.BaseToken:partOfSpeech</feature>
+                    <feature>org.apache.ctakes.typesystem.type.syntax.BaseToken:normalizedForm</feature>
+                    <feature>org.apache.ctakes.typesystem.type.syntax.BaseToken:tokenNumber</feature>
+                    <feature>org.apache.ctakes.typesystem.type.syntax.BaseToken:end</feature>
+                    <feature>org.apache.ctakes.typesystem.type.syntax.BaseToken:begin</feature>
+                </inputs>
+                <outputs/>
+                <languagesSupported/>
+            </capability>
+        </capabilities>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.lvg.ae.LvgAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.lvg.ae.LvgAnnotator</name>
+        <description>UIMA annotator that uses the UMLS LVG package to find the canonical form of
+WordTokens. The package is also used to find one or more lemmas for a given
+WordToken along with its associated part of speech.</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters>
+            <configurationParameter>
+                <name>PostLemmas</name>
+                <description>Whether to extract the lexical variants and write to cas (creates large files)</description>
+                <type>Boolean</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>UseLemmaCache</name>
+                <description>Whether to use a cache for lemmas</description>
+                <type>Boolean</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>LemmaCacheFileLocation</name>
+                <description>Path to lemma cache file -- if useLemmaCache and postLemmas are true</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>LemmaCacheFrequencyCutoff</name>
+                <description>Threshold for the frequency of a lemma to be loaded into the cache</description>
+                <type>Integer</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>UseSegments</name>
+                <description>Whether to use segments found in upstream cTAKES components</description>
+                <type>Boolean</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>SegmentsToSkip</name>
+                <description>Segment IDs to skip during processing</description>
+                <type>String</type>
+                <multiValued>true</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>XeroxTreebankMap</name>
+                <description>Mapping from Xerox parts of speech to Treebank equivalents</description>
+                <type>String</type>
+                <multiValued>true</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>UseCmdCache</name>
+                <description>Use cache to track canonical forms</description>
+                <type>Boolean</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>CmdCacheFileLocation</name>
+                <description>File with stored cache of canonical forms</description>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>CmdCacheFrequencyCutoff</name>
+                <description>Minimum frequency required for loading from cache</description>
+                <type>Integer</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>ExclusionSet</name>
+                <description>Words to exclude when doing LVG normalization</description>
+                <type>String</type>
+                <multiValued>true</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+        </configurationParameters>
+        <configurationParameterSettings>
+            <nameValuePair>
+                <name>PostLemmas</name>
+                <value>
+                    <boolean>false</boolean>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>UseLemmaCache</name>
+                <value>
+                    <boolean>false</boolean>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>LemmaCacheFileLocation</name>
+                <value>
+                    <string>/org/apache/ctakes/lvg/2005_lemma.voc</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>LemmaCacheFrequencyCutoff</name>
+                <value>
+                    <integer>20</integer>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>UseSegments</name>
+                <value>
+                    <boolean>false</boolean>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>SegmentsToSkip</name>
+                <value>
+                    <array/>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>UseCmdCache</name>
+                <value>
+                    <boolean>false</boolean>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>CmdCacheFileLocation</name>
+                <value>
+                    <string>/org/apache/ctakes/lvg/2005_norm.voc</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>CmdCacheFrequencyCutoff</name>
+                <value>
+                    <integer>20</integer>
+                </value>
+            </nameValuePair>
+        </configurationParameterSettings>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+    <externalResourceDependencies>
+        <externalResourceDependency>
+            <key>LvgCmdApi</key>
+            <description/>
+            <interfaceName>java.lang.Object</interfaceName>
+            <optional>false</optional>
+        </externalResourceDependency>
+    </externalResourceDependencies>
+</analysisEngineDescription>

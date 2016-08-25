@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">ILSP NERC</resourceShortName>
+    <resourceName lang="en">ILSP NERC</resourceName>
+    <description lang="en">This module uses a Maximum Entropy NER engine focusing on EL or EN textual newsy data.</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.2</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Named Entity Recognizer</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>gr.ilsp.types.Token</annotationType>
+        <annotationType>gr.ilsp.types.Sentence</annotationType>
+        <annotationType>gr.ilsp.types.Paragraph</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>gr.ilsp.types.Token</annotationType>
+        <annotationType>gr.ilsp.types.Sentence</annotationType>
+        <annotationType>gr.ilsp.types.PER</annotationType>
+        <annotationType>gr.ilsp.types.ORG</annotationType>
+        <annotationType>gr.ilsp.types.LOC</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

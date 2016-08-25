@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>
+  <annotatorImplementationName>uk.ac.nactem.uima.Oscar4Tokeniser</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>OSCAR 4 Tokeniser</name>
+    <description>Segments text into tokens. Derived from the OSCAR 4 chemical NER tool, this tokeniser is specifically tuned for processing chemical text.</description>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import name="org.u_compare.U_compareTypeSystem"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs>
+        	<type allAnnotatorFeatures="true">org.u_compare.shared.syntactic.Sentence</type>
+        </inputs>
+        <outputs>
+          <type allAnnotatorFeatures="true">org.u_compare.shared.syntactic.Token</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>

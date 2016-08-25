@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Conll2002Writer</resourceShortName>
+    <resourceName lang="en">Conll2002Writer</resourceName>
+    <description lang="en">&lt;p&gt;Writes the CoNLL 2002 named entity format. The columns are separated by a single space, unlike
+illustrated below.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+Wolff      B-PER
+,          O
+currently  O
+a          O
+journalist O
+in         O
+Argentina  B-LOC
+,          O
+played     O
+with       O
+Del        B-PER
+Bosque     I-PER
+in         O
+the        O
+final      O
+years      O
+of         O
+the        O
+seventies  O
+in         O
+Real       B-ORG
+Madrid     I-ORG
+.          O
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;FORM - token&lt;/li&gt;
+&lt;li&gt;NER - named entity (BIO encoded)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Sentences are separated by a blank new line.&lt;/p&gt;</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.8.0</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Writer</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</annotationType>
+        <annotationType>de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Chemical Entity Recogniser</resourceShortName>
+    <resourceName lang="en">Chemical Entity Recogniser</resourceName>
+    <description lang="en">A named entity recogniser capable of annotating names of chemicals, drugs and metabolites. Built on top of the NERsuite package [1].
+Available models:
+Chemical: trained on the BioCreative IV CHEMDNER Track training and development corpora [2]
+Drug: trained on the DDI training corpus [3]
+Metabolite: trained on NaCTeM's Metabolite corpus [4]
+
+Dictionaries used:
+Chemical: ChEBI [5], DrugBank [6], CTD Chemicals [7], PubChem Compound [8], Jochem [9]
+Drug: DrugBank [6]
+Metabolite: ChEBI [5], Human Metabolome Database [10]
+
+Links:
+[1] http://nersuite.nlplab.org
+[2] http://www.biocreative.org/resources/corpora/bc-iv-chemdner-corpus
+[3] http://labda.inf.uc3m.es/doku.php?id=en:labda_ddicorpus
+[4] http://www.nactem.ac.uk/metabolite-corpus
+[5] http://www.ebi.ac.uk/chebi
+[6] http://www.drugbank.ca
+[7] http://ctdbase.org
+[8] http://pubchem.ncbi.nlm.nih.gov
+[9] http://www.biosemantics.org/new/index.php?page=Jochem
+[10] http://www.hmdb.ca</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>0.1</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.syntactic.Sentence</annotationType>
+        <annotationType>org.u_compare.shared.syntactic.RichToken</annotationType>
+        <annotationType>jp.ac.u_tokyo.s.is.www_tsujii.tools.geniatagger.Chunk</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.semantic.chemical.Chemical</annotationType>
+        <annotationType>org.u_compare.shared.semantic.chemical.Drug</annotationType>
+        <annotationType>org.u_compare.shared.semantic.chemical.Metabolite</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>

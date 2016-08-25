@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>org.apache.ctakes.sideeffect.ae.PSESentenceAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>org.apache.ctakes.sideeffect.ae.PSESentenceAnnotator</name>
+        <description>Identify the sentence(s) that contains PSE (signs/symptoms or&#13;
+disease/disorder) and drugs and add them to PSESentence. - If the sentence&#13;
+containing PSE doesn't have drug, include the previous sentence if it&#13;
+contains drug and it is in the same line (paragraph). - Disregard the&#13;
+particular section(s) (eg, allergy section (20105)) This annotation will be&#13;
+used to extract features for side-effect sentence classification.</description>
+        <version>3.2.3-SNAPSHOT</version>
+        <vendor>Apache cTAKES Project</vendor>
+        <configurationParameters/>
+        <configurationParameterSettings/>
+        <typeSystemDescription/>
+        <typePriorities/>
+        <fsIndexCollection/>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

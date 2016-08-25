@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><resourceInfo xmlns="https://inventory.clarin.gr/META-XMLSchema/v3.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://inventory.clarin.gr/META-XMLSchema/v3.0.2 https://inventory.clarin.gr/META-XMLSchema/v3.0.2/META-SHARE-Resource.xsd">
+  <identificationInfo>
+    <resourceShortName lang="en">Enju Parser</resourceShortName>
+    <resourceName lang="en">Enju Parser</resourceName>
+    <description lang="en">A syntactic parser for English. With a wide-coverage probabilistic HPSG grammar and an efficient parsing algorithm, this parser can effectively analyze syntactic/semantic structures of English sentences and provide a user with phrase structures and predicate-argument structures.
+
+Main features:
+Accurate deep analysis - the parser can output both phrase structures and predicate-argument structures. The accuracy of predicate-argument relations is around 90% for newswire articles and biomedical papers.
+High speed - parsing speed is less than 500 msec. per sentence by default (faster than most Penn Treebank parsers), and less than 50 msec. when using the high-speed setting ("mogura").
+
+Enju website: http://www.nactem.ac.uk/enju</description>
+  </identificationInfo>
+  <distributionInfo>
+    <licenses/>
+  </distributionInfo>
+  <contactPerson/>
+  <metadataInfo/>
+  <versionInfo>
+    <version>1.1</version>
+  </versionInfo>
+  <resourceDocumentationInfo/>
+  <resourceComponentType>
+    <toolServiceInfo>
+      <resourceType>toolService</resourceType>
+      <toolServiceType>tool</toolServiceType>
+      <toolServiceSubtype>Parser</toolServiceSubtype>
+      <inputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>org.u_compare.shared.syntactic.Sentence</annotationType>
+        <annotationType>org.u_compare.shared.syntactic.Token</annotationType>
+        <annotationType>org.u_compare.shared.syntactic.GeniaToken</annotationType>
+      </inputInfo>
+      <outputInfo>
+        <mediaType>text</mediaType>
+        <resourceType>corpus</resourceType>
+        <annotationType>jp.ac.u_tokyo.s.is.www_tsujii.tools.enju.EnjuToken</annotationType>
+        <annotationType>jp.ac.u_tokyo.s.is.www_tsujii.tools.enju.EnjuSentence</annotationType>
+        <annotationType>jp.ac.u_tokyo.s.is.www_tsujii.tools.enju.EnjuConstituent</annotationType>
+      </outputInfo>
+    </toolServiceInfo>
+  </resourceComponentType>
+</resourceInfo>
