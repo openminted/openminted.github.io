@@ -1,0 +1,6 @@
+- menu_name: "Stay up-to-date"
+
+- name: "Newsletter"
+  url: "http://openminted.eu/newsletter/"
+  class: "services-mailinglist"
+  title: "Newsletter"

@@ -1,0 +1,30 @@
+- title: OpenMinTeD
+  url: "https://openminted.eu"
+  side: left
+
+- title: Home
+  url: "/"
+  side: left
+
+- title: Specification
+  url: "/releases/interop-spec/1.0.0/openminted-interoperability-spec"
+  side: left
+  dropdown:
+  - title: "1.0.0"
+    url: "/releases/interop-spec/1.0.0/openminted-interoperability-spec"
+  - title: "1.1.0"
+    url: "/releases/interop-spec/1.1.0/openminted-interoperability-spec"
+
+- title: OMTD-SHARE
+  url: "/releases/omtd-share/1.0.0"
+  side: left
+
+- title: More
+  side: left
+  dropdown:
+  - title: Scenarios
+    url: "/releases/interop-spec/1.0.0/openminted-interoperability-scenarios"
+  - title: Components
+    url: "/releases/interop-spec/1.0.0/components"
+  - title: Type systems
+    url: "/releases/interop-spec/1.0.0/typealignment"
