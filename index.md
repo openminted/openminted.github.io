@@ -14,7 +14,7 @@ header:
 
 Welcome to the OpenMinTeD Resources.
 
-OpenMinted sets out to create an open, service-oriented ep-Infrastructure for Text and Data Mining 
+OpenMinted sets out to create an open, service-oriented Infrastructure for Text and Data Mining 
 (TDM) of scientific and scholarly content. Researchers can collaboratively create, discover, share 
 and re-use Knowledge from a wide range of text-based scientific related sources in a seamless way.
 
