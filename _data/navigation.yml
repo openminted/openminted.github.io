@@ -16,8 +16,11 @@
     url: "/releases/interop-spec/1.1.0/openminted-interoperability-spec"
 
 - title: OMTD-SHARE
-  url: "/releases/omtd-share/1.0.0"
+  url: "/releases/omtd-share/"
   side: left
+  dropdown:
+  - title: "1.0.0"
+    url: "/releases/omtd-share/1.0.0"
 
 - title: More
   side: left
