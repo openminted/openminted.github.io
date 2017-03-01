@@ -12,8 +12,10 @@
   dropdown:
   - title: "1.0.0"
     url: "/releases/interop-spec/1.0.0/openminted-interoperability-spec"
-  - title: "1.1.0"
+  - title: "1.1.0 (SNAPSHOT)"
     url: "/releases/interop-spec/1.1.0/openminted-interoperability-spec"
+  - title: "Latest (SNAPSHOT)"
+    url: "https://builds.openminted.eu/job/WP%205.2%20-%20Interoperability%20Specification/eu.openminted.interop$openminted-interoperability-spec/doclinks/1/"
 
 - title: OMTD-SHARE
   url: "/releases/omtd-share/"
