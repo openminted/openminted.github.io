@@ -23,6 +23,8 @@
   dropdown:
   - title: "1.0.0"
     url: "/releases/omtd-share/1.0.0"
+  - title: "2.0.0 (SNAPSHOT)"
+    url: "/releases/omtd-share/2.0.0"
 
 - title: More
   side: left
