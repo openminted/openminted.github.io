@@ -1,0 +1,1232 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for namespace </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <p><a href="index.indexList.html">Components</a><span> | </span><a href="schHierarchy.html">Resource Hierarchy</a></p>
+      <hr />
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC" onchange="selectTOCGroupBy(this.options[this.selectedIndex].value, true, 'index.indexList.html', 'index.indexListns.html', 'index.indexListcomp.html');">
+                     <option value="toc_group_by_namespace">Namespace</option>
+                     <option value="toc_group_by_location" selected="selected">Location</option>
+                     <option value="toc_group_by_component_type">Component Type</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_location" style="display:block">
+            <div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-GlobalTypes.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-GlobalTypes.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-GlobalTypes.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-GlobalTypes.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-GlobalTypes.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-GlobalTypes.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-GlobalTypes.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#date" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:date</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#dateRange" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:dateRange</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#endDate" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:endDate</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#journalIdentifier" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:journalIdentifier</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#metadataHeaderInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:metadataHeaderInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#organizationIdentifier" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:organizationIdentifier</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#personIdentifier" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:personIdentifier</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#projectIdentifier" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:projectIdentifier</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#publicationIdentifier" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:publicationIdentifier</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#publisher" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:publisher</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#resourceName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceName</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#startDate" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:startDate</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#subject" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:subject</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-GlobalTypes.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-GlobalTypes.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-GlobalTypes.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#actorInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:actorInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#baseMetadataRecord" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:baseMetadataRecord</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#dateCombinationType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:dateCombinationType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#dateRangeType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:dateRangeType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#dateType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:dateType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#groupInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:groupInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#journalIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:journalIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#journalInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:journalInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#metadataHeaderInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:metadataHeaderInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#metadataIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:metadataIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#myString" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:myString</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#organizationIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:organizationIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#personIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:personIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#projectIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:projectIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#publicationIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:publicationIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#relatedDocumentInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:relatedDocumentInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#relatedResourceType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:relatedResourceType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#repositoryIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:repositoryIdentifierType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#repositoryInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:repositoryInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#resourceIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceIdentifierType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-GlobalTypes.xsdSimple_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-GlobalTypes.xsdSimple_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Simple Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-GlobalTypes.xsdSimple_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#classificationSchemeName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:classificationSchemeName</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#conformanceToStandardsBestPractices" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:conformanceToStandardsBestPractices</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#emailAddress" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:emailAddress</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#httpURI" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:httpURI</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#processMode" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:processMode</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-GlobalTypes.xsdAttribute" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-GlobalTypes.xsdAttribute');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attributes</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-GlobalTypes.xsdAttribute" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#schemeURI" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">@ms:schemeURI</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-Actors.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Actors.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-Actors.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-Actors.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Actors.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Actors.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Actors.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#communicationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:communicationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#organizationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:organizationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#personInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:personInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#sex" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:sex</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Actors.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Actors.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Actors.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#communicationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:communicationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#organizationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:organizationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#personInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:personInfoType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Actors.xsdAttribute" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Actors.xsdAttribute');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attributes</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Actors.xsdAttribute" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#nameType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">@ms:nameType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-Publications.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Publications.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-Publications.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-Publications.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Publications.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Publications.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Publications.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#annotatedPublication" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:annotatedPublication</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#documentMetadataRecord" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:documentMetadataRecord</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#journal" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:journal</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#publication" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:publication</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#repository" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:repository</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Publications.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Publications.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Publications.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#annotatedDocumentInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:annotatedDocumentInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#documentInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:documentInfoType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Publications.xsdAttribute" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Publications.xsdAttribute');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attributes</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Publications.xsdAttribute" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#contributorType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">@ms:contributorType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-Distributions.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Distributions.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-Distributions.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-Distributions.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Distributions.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Distributions.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Distributions.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#attributionText" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:attributionText</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#availabilityEndDate" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:availabilityEndDate</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#availabilityStartDate" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:availabilityStartDate</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#componentDistributionInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:componentDistributionInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#copyrightStatement" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:copyrightStatement</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#datasetDistributionInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:datasetDistributionInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#distributionLoc" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:distributionLoc</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#distributionMedium" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:distributionMedium</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#distributionURL" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:distributionURL</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#documentDistributionInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:documentDistributionInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#fee" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:fee</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#licenceInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:licenceInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#rightsHolder" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:rightsHolder</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#rightsInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:rightsInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#rightsStatement" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:rightsStatement</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#userType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:userType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Distributions.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Distributions.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Distributions.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#componentDistributionInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:componentDistributionInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#datasetDistributionInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:datasetDistributionInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#documentDistributionInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:documentDistributionInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#licenceInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:licenceInfoType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-ResourceCommon.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-ResourceCommon.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-ResourceCommon.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-ResourceCommon.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-ResourceCommon.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-ResourceCommon.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-ResourceCommon.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#TDMMethod" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:TDMMethod</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#actualUseInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:actualUseInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#annotationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:annotationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#annotationLevel" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:annotationLevel</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#annotationResource" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:annotationResource</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#characterEncoding" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:characterEncoding</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#characterEncodingInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:characterEncodingInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#contactInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:contactInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#creationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:creationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#dataFormatInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:dataFormatInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#domain" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:domain</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#domainInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:domainInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#encodingLevel" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:encodingLevel</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#geographicCoverageInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:geographicCoverageInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#hasOriginalSource" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:hasOriginalSource</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#identificationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:identificationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#keyword" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:keyword</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#language" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:language</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageVarietyInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageVarietyInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageVarietyName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageVarietyName</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#lingualityInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:lingualityInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#mediaType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:mediaType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#metalanguageInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:metalanguageInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#mimeType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:mimeType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#modalityInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:modalityInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#modalityType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:modalityType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#register" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:register</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#relationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:relationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#resourceCreationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceCreationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#resourceDocumentationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceDocumentationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#runningEnvironmentInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:runningEnvironmentInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#size" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:size</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#sizeInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:sizeInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#theoreticModel" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:theoreticModel</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#timeCoverageInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:timeCoverageInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#typesystem" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:typesystem</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#usageInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:usageInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#validationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:validationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#versionInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:versionInfo</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-ResourceCommon.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-ResourceCommon.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-ResourceCommon.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#actualUseInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:actualUseInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#annotationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:annotationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#characterEncodingInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:characterEncodingInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#contactInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:contactInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#creationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:creationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#domainInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:domainInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#geographicCoverageInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:geographicCoverageInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#identificationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:identificationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageVarietyInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageVarietyInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#lingualityInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:lingualityInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#mailingListInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:mailingListInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#modalityInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:modalityInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#relationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:relationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#resourceCreationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceCreationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#resourceDocumentationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceDocumentationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#runningEnvironmentInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:runningEnvironmentInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#sizeInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:sizeInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#timeCoverageInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:timeCoverageInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#usageInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:usageInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#validationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:validationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#versionInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:versionInfoType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-ResourceCommon.xsdSimple_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-ResourceCommon.xsdSimple_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Simple Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-ResourceCommon.xsdSimple_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#applicationType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:applicationType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-TextSpecific.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-TextSpecific.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-TextSpecific.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-TextSpecific.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-TextSpecific.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-TextSpecific.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-TextSpecific.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#structuralEncodingInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:structuralEncodingInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#textClassificationInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textClassificationInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#textFormatInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textFormatInfo</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#textGenre" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textGenre</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#textType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-TextSpecific.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-TextSpecific.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-TextSpecific.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#structuralEncodingInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:structuralEncodingInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#textClassificationInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textClassificationInfoType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#textFormatInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textFormatInfoType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-Projects.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Projects.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-Projects.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-Projects.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Projects.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Projects.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Projects.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#projectInfo" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:projectInfo</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-Projects.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-Projects.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-Projects.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#projectInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:projectInfoType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_OMTD-SHARE-ISOVocabularies.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-ISOVocabularies.xsd');" class="control" /><span class="indexGroupTitle">OMTD-SHARE-ISOVocabularies.xsd</span></p>
+                  <div id="gr_OMTD-SHARE-ISOVocabularies.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_OMTD-SHARE-ISOVocabularies.xsdSimple_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_OMTD-SHARE-ISOVocabularies.xsdSimple_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Simple Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_OMTD-SHARE-ISOVocabularies.xsdSimple_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#languageIdType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:languageIdType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#regionIdType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:regionIdType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#scriptIdType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:scriptIdType</a></b></div>
+                                                <div><b><a href="OMTD-SHARE_XMLSchema.html#variantIdType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:variantIdType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>

@@ -1,0 +1,2332 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for "No namespace"</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var facetsBoxes= new Array('facets_publicationIdentifierType_publicationIdentifierSchemeName', 
+				'facets_documentInfoType_documentInfoType_titles_documentInfoType_documentInfoType_titles_title_titleType', 
+				'facets_personIdentifierType_personIdentifierSchemeName', 
+				'facets_organizationIdentifierType_organizationIdentifierSchemeName', 
+				'facets_journalIdentifierType_journalIdentifierSchemeName', 
+				'facets_subject_classificationSchemeName', 
+				'facets_resourceIdentifierType_resourceIdentifierSchemeName', 
+				'facets_metadataIdentifierType_metadataIdentifierSchemeName', 
+				'facets_repositoryIdentifierType_repositoryIdentifierSchemeName', 
+				'facets_structuralEncodingInfoType_structuralEncodingInfoType_structuralEncoding_schemeName', 
+				'facets_textGenre_classificationSchemeName', 
+				'facets_textType_classificationSchemeName', 
+				'facets_register_classificationSchemeName', 
+				'facets_domain_classificationSchemeName');
+var annotationBoxes= new Array('annotations_publicationIdentifierType_publicationIdentifierSchemeName', 
+				'annotations_personIdentifierType_personIdentifierSchemeName', 
+				'annotations_organizationIdentifierType_organizationIdentifierSchemeName', 
+				'annotations_journalIdentifierType_journalIdentifierSchemeName', 
+				'annotations_projectIdentifierType_projectIdentifierSchemeName', 
+				'annotations_resourceIdentifierType_resourceIdentifierSchemeName', 
+				'annotations_metadataIdentifierType_metadataIdentifierSchemeName');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="publicationIdentifierType_publicationIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#publicationIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:publicationIdentifierType</a></b> / @publicationIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_publicationIdentifierType_publicationIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_publicationIdentifierType_publicationIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_publicationIdentifierType_publicationIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the publication identifier is
+                                 assigned by the authority that issues it (e.g. DOI, PubMed Central etc.)
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_publicationIdentifierType_publicationIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_publicationIdentifierType_publicationIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_publicationIdentifierType_publicationIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DOI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the DOI system (Digital Object
+                                          Identifier, https://www.doi.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Handle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the Handle system for identifiers
+                                          (https://www.handle.net/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ARK</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the Archival Resource Key
+                                          identifiers (https://confluence.ucop.edu/display/Curation/ARK)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>arXiv</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the identifiers issued by
+                                          arXiv (https://arxiv.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>bibcode</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to bibcode identifiers, i.e.
+                                          a type of identifier used for literature references by astronomical data systems (Bibliographic
+                                          Code, http://adsabs.harvard.edu/abs_doc/help_pages/data.html)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EAN13</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to EAN (International Article
+                                          Number, also known as European Article Number) and more specifically to the EAN 13
+                                          standard (cf. https://en.wikipedia.org/wiki/International_Article_Number)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the e-ISSN (electronic International
+                                          Standard Serial Number, https://en.wikipedia.org/wiki/International_Standard_Serial_Number)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISBN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the ISBN (International Standard
+                                          Book Number, https://www.isbn-international.org/content/what-isbn)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the ISSN (International Standard
+                                          Serial Number, http://www.issn.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISTC</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the ISTC (International Standard
+                                          Text Code, http://www.istc-international.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the linking ISSN or ISSN-L</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LSID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the LSID (Life Sciences Identifier,
+                                          http://www.webcitation.org/getfile?fileid=27fcd073ea70199946ace15c6868520be2cab2ab)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PURL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to PURL (Persistent URL, https://archive.org/services/purl/help)</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UPC</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to UPC (Universal Product Number,
+                                          http://www.gtin.info/upc/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the URL (Uniform Resource
+                                          Locator, https://en.wikipedia.org/wiki/URL)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the URN (Uniform Resource
+                                          Name, https://en.wikipedia.org/wiki/Uniform_Resource_Name)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>OAI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the OAI identifier (Open Archives
+                                          Initiative, http://www.openarchives.org/OAI/2.0/guidelines-oai-identifier.htm)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PMCID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the PMCID (PubMed Central
+                                          Identifier, https://www.ncbi.nlm.nih.gov/pmc/pmctopmid/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PMID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for publicationIdentifierSchemeName, referring to the PMID (PubMed Identifier,
+                                          https://www.ncbi.nlm.nih.gov/pmc/pmctopmid/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceSchemeName, to be used when the desired value is not included in
+                                          the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="publicationIdentifierType_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#publicationIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:publicationIdentifierType</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="myString_lang"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#myString" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:myString</a></b> / @lang</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:language</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="documentInfoType_documentInfoType_titles_documentInfoType_documentInfoType_titles_title_titleType"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#documentInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:documentInfoType</a></b> / <b><a href="OMTD-SHARE_XMLSchema.html#documentInfoType_titles" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:titles</a></b> / <b><a href="OMTD-SHARE_XMLSchema.html#documentInfoType_documentInfoType_titles_title" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:title</a></b> / @titleType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_documentInfoType_documentInfoType_titles_documentInfoType_documentInfoType_titles_title_titleType" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_documentInfoType_documentInfoType_titles_documentInfoType_documentInfoType_titles_title_titleType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_documentInfoType_documentInfoType_titles_documentInfoType_documentInfoType_titles_title_titleType" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>alternativeTitle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for alternative titles</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>subtitle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for subtitles of a document</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>translatedTitle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for translated titles</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for titletype; to be used when no other value of the recommended list can be
+                                          used
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="personInfoType_personInfoType_names_personInfoType_personInfoType_names_name_lang"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#personInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:personInfoType</a></b> / <b><a href="OMTD-SHARE_XMLSchema.html#personInfoType_names" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:names</a></b> / <b><a href="OMTD-SHARE_XMLSchema.html#personInfoType_personInfoType_names_name" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:name</a></b> / @lang</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:language</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="personIdentifierType_personIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#personIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:personIdentifierType</a></b> / @personIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_personIdentifierType_personIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_personIdentifierType_personIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_personIdentifierType_personIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the person identifier is assigned
+                                 by the authority that issues it (e.g. ORCID, ScopusId, ResearcherID etc.)
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_personIdentifierType_personIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_personIdentifierType_personIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_personIdentifierType_personIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ORCID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for personIdentifierSchemeName, referring to the ORCID identifier for researchers
+                                          (https://orcid.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISNI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for personIdentifierSchemeName, referring to the ISNI authority (International
+                                          Standard Name Identifier, http://www.isni.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>researcherId</b></td>
+                                    <td>
+                                       <div class="annotation">Value for personIdentifierSchemeName, referring to the ResearcherID identifier for
+                                          researchers (http://www.researcherid.com/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>scopusId</b></td>
+                                    <td>
+                                       <div class="annotation">Value for personIdentifierSchemeName, referring to the Scopus identifier for authors
+                                          (https://www.scopus.com)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for personIdentifierSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="organizationIdentifierType_organizationIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#organizationIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:organizationIdentifierType</a></b> / @organizationIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_organizationIdentifierType_organizationIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_organizationIdentifierType_organizationIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_organizationIdentifierType_organizationIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the organization identifier is
+                                 assigned by the authority that issues it
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_organizationIdentifierType_organizationIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_organizationIdentifierType_organizationIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_organizationIdentifierType_organizationIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISNI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for organizationIdentifierSchemeName, referring to the ISNI authority (International
+                                          Standard Name Identifier, http://www.isni.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>GRID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for organizationIdentifierSchemeName, referring to the GRID (Global Research
+                                          Identifier Database, https://www.grid.ac/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>FundRef</b></td>
+                                    <td>
+                                       <div class="annotation">Value for organizationIdentifierSchemeName, referring to the CrossRef Funder ID (https://www.crossref.org/services/funder-registry/)</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for organizationIdentifierSchemeName, to be used when the desired value is not
+                                          included in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="journalIdentifierType_journalIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#journalIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:journalIdentifierType</a></b> / @journalIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_journalIdentifierType_journalIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_journalIdentifierType_journalIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_journalIdentifierType_journalIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the journal identifier is assigned
+                                 by the authority that issues it
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_journalIdentifierType_journalIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_journalIdentifierType_journalIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_journalIdentifierType_journalIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DOI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for journalIdentifierSchemeName, referring to the DOI system (Digital Object
+                                          Identifier, https://www.doi.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Handle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for journalIdentifierSchemeName, referring to the Handle system for identifiers
+                                          (https://www.handle.net/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for journalIdentifierSchemeName, referring to the ISSN (International Standard
+                                          Serial Number, http://www.issn.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for journalIdentifierSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="subject_classificationSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#subject" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:subject</a></b> / @classificationSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="OMTD-SHARE_XMLSchema.html#classificationSchemeName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:classificationSchemeName</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_subject_classificationSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_subject_classificationSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_subject_classificationSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DDC</b></td>
+                                    <td>
+                                       <div class="annotation">Dewey Decimal Classification system; https://www.oclc.org/dewey.en.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UDC</b></td>
+                                    <td>
+                                       <div class="annotation">Universal Decimal Classification system; for the Linked Data version, cf. http://udcdata.info/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EuroVoc</b></td>
+                                    <td>
+                                       <div class="annotation">EuroVoc, the EU's multilingual thesaurus; various downloadable versions at http://data.europa.eu/euodp/en/data/dataset/eurovoc</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LCSH</b></td>
+                                    <td>
+                                       <div class="annotation">Library of Congress Subject Headings; cf. http://id.loc.gov/authorities/subjects.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DK-5</b></td>
+                                    <td>
+                                       <div class="annotation">DK-5; Linked Data version at https://opensource.dbc.dk/linked-data/dk5-linked-data</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>MeSH</b></td>
+                                    <td>
+                                       <div class="annotation">Medical Subject Headlings; downloadable versions at https://www.nlm.nih.gov/mesh/download_mesh.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ANC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">American National Corpus controlled vocabulary for text classification; cf. http://www.anc.org/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>BNC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">British National Corpus controlled vocabulary for text classification; cf. http://www.natcorp.ox.ac.uk/docs/URG/
+                                          subsections on selection and descriptive features
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NLK_classification</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_topicClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole topic classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_genreClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole genre classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for classificationSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="subject_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#subject" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:subject</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="projectIdentifierType_projectIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#projectIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:projectIdentifierType</a></b> / @projectIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_projectIdentifierType_projectIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_projectIdentifierType_projectIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_projectIdentifierType_projectIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the project identifier is assigned
+                                 by the authority that issues it
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="resourceIdentifierType_resourceIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#resourceIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:resourceIdentifierType</a></b> / @resourceIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_resourceIdentifierType_resourceIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_resourceIdentifierType_resourceIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_resourceIdentifierType_resourceIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the resource identifier is assigned
+                                 by the authority that issues it (e.g. DOI, ISLRN etc.)
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_resourceIdentifierType_resourceIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_resourceIdentifierType_resourceIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_resourceIdentifierType_resourceIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DOI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the DOI system (Digital Object
+                                          Identifier, https://www.doi.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISLRN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to ISLRN (International Standard
+                                          Language Resource Number, http://www.islrn.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Handle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the Handle system for identifiers
+                                          (https://www.handle.net/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ARK</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the Archival Resource Key identifiers
+                                          (https://confluence.ucop.edu/display/Curation/ARK)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>arXiv</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the identifiers issued by arXiv
+                                          (https://arxiv.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>bibcode</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to bibcode identifiers, i.e. a type
+                                          of identifier used for literature references by astronomical data systems (Bibliographic
+                                          Code, http://adsabs.harvard.edu/abs_doc/help_pages/data.html)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EAN13</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to EAN (International Article Number,
+                                          also known as European Article Number) and more specifically to the EAN 13 standard
+                                          (cf. https://en.wikipedia.org/wiki/International_Article_Number)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the e-ISSN (electronic International
+                                          Standard Serial Number, https://en.wikipedia.org/wiki/International_Standard_Serial_Number)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISBN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the ISBN (International Standard
+                                          Book Number, https://www.isbn-international.org/content/what-isbn)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the ISSN (International Standard
+                                          Serial Number, http://www.issn.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ISTC</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the ISTC (International Standard
+                                          Text Code, http://www.istc-international.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LISSN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the linking ISSN or ISSN-L</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LSID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the LSID (Life Sciences Identifier,
+                                          http://www.webcitation.org/getfile?fileid=27fcd073ea70199946ace15c6868520be2cab2ab)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PURL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to PURL (Persistent URL, https://archive.org/services/purl/help)</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UPC</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to UPC (Universal Product Number,
+                                          http://www.gtin.info/upc/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the URL (Uniform Resource Locator,
+                                          https://en.wikipedia.org/wiki/URL)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the URN (Uniform Resource Name,
+                                          https://en.wikipedia.org/wiki/Uniform_Resource_Name)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>OAI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the OAI identifier (Open Archives
+                                          Initiative, http://www.openarchives.org/OAI/2.0/guidelines-oai-identifier.htm)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PMCID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the PMCID (PubMed Central Identifier,
+                                          https://www.ncbi.nlm.nih.gov/pmc/pmctopmid/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PMID</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the PMID (PubMed Identifier,
+                                          https://www.ncbi.nlm.nih.gov/pmc/pmctopmid/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>maven</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the Maven coordinates (cf. Maven
+                                          POM, https://maven.apache.org/pom.html#Maven_Coordinates)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>docker</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceIdentifierSchemeName, referring to the Docker (https://hub.docker.com/help/)</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for resourceSchemeName, to be used when the desired value is not included in
+                                          the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="metadataIdentifierType_metadataIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#metadataIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:metadataIdentifierType</a></b> / @metadataIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_metadataIdentifierType_metadataIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_metadataIdentifierType_metadataIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_metadataIdentifierType_metadataIdentifierSchemeName" style="display:block">
+                              <div class="annotation">Specifies the name of the scheme according to which the metadata record identifier
+                                 is assigned by the authority that issues it
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_metadataIdentifierType_metadataIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_metadataIdentifierType_metadataIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_metadataIdentifierType_metadataIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Handle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for metadataIdentifierSchemeName, referring to the Handle system for identifiers
+                                          (https://www.handle.net/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PURL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for metadataIdentifierSchemeName, referring to PURL (Persistent URL, https://archive.org/services/purl/help)</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for metadataIdentifierSchemeName, referring to the URL (Uniform Resource Locator,
+                                          https://en.wikipedia.org/wiki/URL)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URN</b></td>
+                                    <td>
+                                       <div class="annotation">Value for metadataIdentifierSchemeName, referring to the URN (Uniform Resource Name,
+                                          https://en.wikipedia.org/wiki/Uniform_Resource_Name)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for metadataIdentifierSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="repositoryIdentifierType_repositoryIdentifierSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#repositoryIdentifierType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:repositoryIdentifierType</a></b> / @repositoryIdentifierSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_repositoryIdentifierType_repositoryIdentifierSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_repositoryIdentifierType_repositoryIdentifierSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_repositoryIdentifierType_repositoryIdentifierSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DOI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the DOI system (Digital Object
+                                          Identifier, https://www.doi.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Handle</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the Handle system for identifiers
+                                          (https://www.handle.net/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>URL</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the URL (Uniform Resource Locator,
+                                          https://en.wikipedia.org/wiki/URL)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>OAI</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the OAI identifier (Open Archives
+                                          Initiative, http://www.openarchives.org/OAI/2.0/guidelines-oai-identifier.htm)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>OpenDOAR</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the OpenDOAR identifier (Directory
+                                          of Open Access Repositories, http://www.opendoar.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>re3data</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the re3data identifier (Registry
+                                          of Research Data Repositories, http://www.re3data.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ROAR</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, referring to the ROAR identifier (Registry
+                                          of Open Access Repositories, http://roar.eprints.org/)
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for repositoryIdentifierSchemeName, to be used when the desired value is not
+                                          included in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="structuralEncodingInfoType_structuralEncodingInfoType_structuralEncoding_schemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#structuralEncodingInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:structuralEncodingInfoType</a></b> / <b><a href="OMTD-SHARE_XMLSchema.html#structuralEncodingInfoType_structuralEncoding" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:structuralEncoding</a></b> / @schemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_structuralEncodingInfoType_structuralEncodingInfoType_structuralEncoding_schemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_structuralEncodingInfoType_structuralEncodingInfoType_structuralEncoding_schemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_structuralEncodingInfoType_structuralEncodingInfoType_structuralEncoding_schemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>jats</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>teiP5</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="structuralEncodingInfoType_structuralEncodingInfoType_structuralEncoding_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#structuralEncodingInfoType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:structuralEncodingInfoType</a></b> / <b><a href="OMTD-SHARE_XMLSchema.html#structuralEncodingInfoType_structuralEncoding" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:structuralEncoding</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="textGenre_classificationSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#textGenre" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textGenre</a></b> / @classificationSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="OMTD-SHARE_XMLSchema.html#classificationSchemeName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:classificationSchemeName</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_textGenre_classificationSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_textGenre_classificationSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_textGenre_classificationSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DDC</b></td>
+                                    <td>
+                                       <div class="annotation">Dewey Decimal Classification system; https://www.oclc.org/dewey.en.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UDC</b></td>
+                                    <td>
+                                       <div class="annotation">Universal Decimal Classification system; for the Linked Data version, cf. http://udcdata.info/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EuroVoc</b></td>
+                                    <td>
+                                       <div class="annotation">EuroVoc, the EU's multilingual thesaurus; various downloadable versions at http://data.europa.eu/euodp/en/data/dataset/eurovoc</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LCSH</b></td>
+                                    <td>
+                                       <div class="annotation">Library of Congress Subject Headings; cf. http://id.loc.gov/authorities/subjects.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DK-5</b></td>
+                                    <td>
+                                       <div class="annotation">DK-5; Linked Data version at https://opensource.dbc.dk/linked-data/dk5-linked-data</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>MeSH</b></td>
+                                    <td>
+                                       <div class="annotation">Medical Subject Headlings; downloadable versions at https://www.nlm.nih.gov/mesh/download_mesh.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ANC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">American National Corpus controlled vocabulary for text classification; cf. http://www.anc.org/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>BNC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">British National Corpus controlled vocabulary for text classification; cf. http://www.natcorp.ox.ac.uk/docs/URG/
+                                          subsections on selection and descriptive features
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NLK_classification</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_topicClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole topic classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_genreClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole genre classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for classificationSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="textGenre_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#textGenre" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textGenre</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="textType_classificationSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#textType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textType</a></b> / @classificationSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="OMTD-SHARE_XMLSchema.html#classificationSchemeName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:classificationSchemeName</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_textType_classificationSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_textType_classificationSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_textType_classificationSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DDC</b></td>
+                                    <td>
+                                       <div class="annotation">Dewey Decimal Classification system; https://www.oclc.org/dewey.en.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UDC</b></td>
+                                    <td>
+                                       <div class="annotation">Universal Decimal Classification system; for the Linked Data version, cf. http://udcdata.info/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EuroVoc</b></td>
+                                    <td>
+                                       <div class="annotation">EuroVoc, the EU's multilingual thesaurus; various downloadable versions at http://data.europa.eu/euodp/en/data/dataset/eurovoc</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LCSH</b></td>
+                                    <td>
+                                       <div class="annotation">Library of Congress Subject Headings; cf. http://id.loc.gov/authorities/subjects.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DK-5</b></td>
+                                    <td>
+                                       <div class="annotation">DK-5; Linked Data version at https://opensource.dbc.dk/linked-data/dk5-linked-data</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>MeSH</b></td>
+                                    <td>
+                                       <div class="annotation">Medical Subject Headlings; downloadable versions at https://www.nlm.nih.gov/mesh/download_mesh.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ANC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">American National Corpus controlled vocabulary for text classification; cf. http://www.anc.org/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>BNC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">British National Corpus controlled vocabulary for text classification; cf. http://www.natcorp.ox.ac.uk/docs/URG/
+                                          subsections on selection and descriptive features
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NLK_classification</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_topicClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole topic classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_genreClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole genre classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for classificationSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="textType_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#textType" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:textType</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="register_classificationSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#register" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:register</a></b> / @classificationSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="OMTD-SHARE_XMLSchema.html#classificationSchemeName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:classificationSchemeName</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_register_classificationSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_register_classificationSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_register_classificationSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DDC</b></td>
+                                    <td>
+                                       <div class="annotation">Dewey Decimal Classification system; https://www.oclc.org/dewey.en.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UDC</b></td>
+                                    <td>
+                                       <div class="annotation">Universal Decimal Classification system; for the Linked Data version, cf. http://udcdata.info/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EuroVoc</b></td>
+                                    <td>
+                                       <div class="annotation">EuroVoc, the EU's multilingual thesaurus; various downloadable versions at http://data.europa.eu/euodp/en/data/dataset/eurovoc</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LCSH</b></td>
+                                    <td>
+                                       <div class="annotation">Library of Congress Subject Headings; cf. http://id.loc.gov/authorities/subjects.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DK-5</b></td>
+                                    <td>
+                                       <div class="annotation">DK-5; Linked Data version at https://opensource.dbc.dk/linked-data/dk5-linked-data</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>MeSH</b></td>
+                                    <td>
+                                       <div class="annotation">Medical Subject Headlings; downloadable versions at https://www.nlm.nih.gov/mesh/download_mesh.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ANC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">American National Corpus controlled vocabulary for text classification; cf. http://www.anc.org/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>BNC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">British National Corpus controlled vocabulary for text classification; cf. http://www.natcorp.ox.ac.uk/docs/URG/
+                                          subsections on selection and descriptive features
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NLK_classification</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_topicClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole topic classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_genreClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole genre classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for classificationSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="register_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#register" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:register</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="domain_classificationSchemeName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#domain" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:domain</a></b> / @classificationSchemeName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="OMTD-SHARE_XMLSchema.html#classificationSchemeName" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:classificationSchemeName</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_domain_classificationSchemeName" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_domain_classificationSchemeName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_domain_classificationSchemeName" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DDC</b></td>
+                                    <td>
+                                       <div class="annotation">Dewey Decimal Classification system; https://www.oclc.org/dewey.en.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>UDC</b></td>
+                                    <td>
+                                       <div class="annotation">Universal Decimal Classification system; for the Linked Data version, cf. http://udcdata.info/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>EuroVoc</b></td>
+                                    <td>
+                                       <div class="annotation">EuroVoc, the EU's multilingual thesaurus; various downloadable versions at http://data.europa.eu/euodp/en/data/dataset/eurovoc</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>LCSH</b></td>
+                                    <td>
+                                       <div class="annotation">Library of Congress Subject Headings; cf. http://id.loc.gov/authorities/subjects.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>DK-5</b></td>
+                                    <td>
+                                       <div class="annotation">DK-5; Linked Data version at https://opensource.dbc.dk/linked-data/dk5-linked-data</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>MeSH</b></td>
+                                    <td>
+                                       <div class="annotation">Medical Subject Headlings; downloadable versions at https://www.nlm.nih.gov/mesh/download_mesh.html</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>ANC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">American National Corpus controlled vocabulary for text classification; cf. http://www.anc.org/</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>BNC_classification</b></td>
+                                    <td>
+                                       <div class="annotation">British National Corpus controlled vocabulary for text classification; cf. http://www.natcorp.ox.ac.uk/docs/URG/
+                                          subsections on selection and descriptive features
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>NLK_classification</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_topicClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole topic classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>PAROLE_genreClassification</b></td>
+                                    <td>
+                                       <div class="annotation">Parole genre classification system; used for the consistent classification of text
+                                          corpora in the LE-PAROLE project
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation">Value for classificationSchemeName, to be used when the desired value is not included
+                                          in the listed values
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="domain_schemeURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="OMTD-SHARE_XMLSchema.html#domain" target="mainFrame" title="http://www.meta-share.org/OMTD-SHARE_XMLSchema" onclick="updatePageTitle('Schema documentation for namespace http://www.meta-share.org/OMTD-SHARE_XMLSchema')">ms:domain</a></b> / @schemeURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
