@@ -25,6 +25,8 @@
     url: "/releases/omtd-share/1.0.0"
   - title: "2.0.0"
     url: "/releases/omtd-share/2.0.0"
+ - title: "2.0.1"
+    url: "/releases/omtd-share/2.0.1"
 
 - title: More
   side: left
