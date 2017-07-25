@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ms:languageDescriptionMetadataRecord xsi:schemaLocation="http://www.meta-share.org/OMTD-SHARE_XMLSchema http://www.meta-share.org/OMTD-SHARE_XMLSchema/v201/OMTD-SHARE-LanguageDescription.xsd" xmlns:ms="http://www.meta-share.org/OMTD-SHARE_XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ms:metadataHeaderInfo>
+		<ms:metadataRecordIdentifier metadataIdentifierSchemeName="other" ms:schemeURI="http://www.openminted.eu">Identifier created automatically by OpenMinTeD</ms:metadataRecordIdentifier>
+		<ms:metadataCreationDate>2017-06-07</ms:metadataCreationDate>
+		<ms:metadataCreators>
+			<ms:metadataCreator>
+				<ms:separateNames>
+					<ms:surnames>
+						<ms:surname lang="en">Labropoulou</ms:surname>
+					</ms:surnames>
+					<ms:givenNames>
+						<ms:givenName lang="en">Penny</ms:givenName>
+					</ms:givenNames>
+				</ms:separateNames>
+				<ms:personIdentifiers>
+					<ms:personIdentifier personIdentifierSchemeName="ORCID">0000-0001-5123-7890</ms:personIdentifier>
+				</ms:personIdentifiers>
+				<ms:sex>female</ms:sex>
+				<ms:communicationInfo>
+					<ms:emails>
+						<ms:email>penny@ilsp.gr</ms:email>
+						<ms:email/>
+					</ms:emails>
+				</ms:communicationInfo>
+				<ms:affiliations>
+					<ms:affiliation>
+						<ms:position>Senior researcher</ms:position>
+						<ms:affiliatedOrganization>
+							<ms:organizationNames>
+								<ms:organizationName lang="en">Athena RC</ms:organizationName>
+							</ms:organizationNames>
+							<ms:departmentNames>
+								<ms:departmentName lang="en">Institute for Language and Speech Processing</ms:departmentName>
+							</ms:departmentNames>
+						</ms:affiliatedOrganization>
+					</ms:affiliation>
+				</ms:affiliations>
+			</ms:metadataCreator>
+		</ms:metadataCreators>
+	</ms:metadataHeaderInfo>
+	<ms:languageDescriptionInfo>
+		<ms:resourceType>languageDescription</ms:resourceType>
+		<ms:identificationInfo>
+			<ms:resourceNames>
+				<ms:resourceName lang="en">Named Entity Model for German, Politics - Stanford variant</ms:resourceName>
+			</ms:resourceNames>
+			<ms:descriptions>
+				<ms:description lang="en"> The Named Entity Model for German, Politics (NEMGP) is a collection of texts from Wikipedia and WikiNews, manually annotated with named entity information. The NEMGP can be used to create models for machine-learning based tools like OpenNLP or the Stanford Named Entity Recognizer. For creating the NEMGP, only free available text resources from Wikipedia and WikiNews were used. If you need more information, please contact me. But please be patient: this is a hobby project!</ms:description>
+			</ms:descriptions>
+			<ms:resourceShortNames>
+				<ms:resourceShortName>NEMGP-Stanford</ms:resourceShortName>
+				</ms:resourceShortNames>
+			<ms:resourceIdentifiers>
+				<ms:resourceIdentifier resourceIdentifierSchemeName="other">Identifier to be created automatically by OpenMinTeD</ms:resourceIdentifier>
+			</ms:resourceIdentifiers>
+			<ms:public>true</ms:public>
+		</ms:identificationInfo>
+		<ms:contactInfo>
+			<ms:landingPage>https://www.thomas-zastrow.de/nlp/</ms:landingPage>
+		</ms:contactInfo>
+		<ms:versionInfo>
+			<ms:versionDate>20141024</ms:versionDate>
+		</ms:versionInfo>
+		<ms:resourceCreationInfo>
+			<ms:resourceCreators>
+				<ms:resourceCreator>
+					<ms:relatedPerson>
+					<ms:names>
+						<ms:name>Thomas Zastrow</ms:name>
+					</ms:names>
+					</ms:relatedPerson>
+				</ms:resourceCreator>
+			</ms:resourceCreators>
+		</ms:resourceCreationInfo>
+		<ms:distributionInfos>
+			<ms:datasetDistributionInfo>
+				<ms:distributionLoc>
+					<ms:distributionMedium>downloadable</ms:distributionMedium>
+					<ms:distributionLocation>http://www.thomas-zastrow.de/nlp/nemgp_stanford_01.gz</ms:distributionLocation>
+				</ms:distributionLoc>
+				<ms:rightsInfo>
+					<ms:licenceInfos>
+						<ms:licenceInfo>
+							<ms:licence>CC-BY-SA-3.0</ms:licence>
+						</ms:licenceInfo>
+					</ms:licenceInfos>
+				</ms:rightsInfo>
+				<ms:attributionTexts>
+					<ms:attributionText lang="de">NEMGP - Named Entity Model for German, Politics von Thomas Zastrow ist lizenziert unter einer Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz.</ms:attributionText>
+				</ms:attributionTexts>
+			</ms:datasetDistributionInfo>
+		</ms:distributionInfos>
+		<ms:languageDescriptionType>mlModel</ms:languageDescriptionType>
+		<ms:modelOperationInfo>
+			<ms:variant>nemgp</ms:variant>
+			<ms:trainingCorpusDetails>Free available text resources from Wikipedia and WikiNews</ms:trainingCorpusDetails>
+		</ms:modelOperationInfo>
+		<ms:languageDescriptionEncodingInfo>
+			<ms:encodingLevels>
+				<ms:encodingLevel>semantics</ms:encodingLevel>
+			</ms:encodingLevels>
+		</ms:languageDescriptionEncodingInfo>
+		<ms:relations>
+			<ms:relationInfo>
+				<ms:relationType>isCompatibleWith</ms:relationType>
+				<ms:relatedResource>
+					<ms:resourceNames>
+						<ms:resourceName lang="en">Stanford Named Entity Recogniser</ms:resourceName>
+					</ms:resourceNames>
+					<ms:resourceIdentifiers>
+						<ms:resourceIdentifier resourceIdentifierSchemeName="maven">mvn:de.tudarmstadt.ukp.dkpro.core:de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl:1.9.0-SNAPSHOT#de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer</ms:resourceIdentifier>
+					</ms:resourceIdentifiers>
+				</ms:relatedResource>
+			</ms:relationInfo>
+		</ms:relations>
+		<ms:languageDescriptionMediaType>
+			<ms:languageDescriptionTextInfo>
+				<ms:mediaType>text</ms:mediaType>
+				<ms:lingualityInfo>
+					<ms:lingualityType>monolingual</ms:lingualityType>
+				</ms:lingualityInfo>
+				<ms:languages>
+					<ms:languageInfo>
+						<ms:language>
+							<ms:languageTag>de</ms:languageTag>
+						</ms:language>
+					</ms:languageInfo>
+				</ms:languages>
+				<ms:domains>
+					<ms:domainInfo>
+						<ms:domain classificationSchemeName="other">politics</ms:domain>
+					</ms:domainInfo>
+				</ms:domains>
+				<ms:creationInfo>
+					<ms:originalSources>
+						<ms:hasOriginalSource>
+							<ms:resourceNames>
+								<ms:resourceName lang="en">Wikipedia</ms:resourceName>
+							</ms:resourceNames>
+						</ms:hasOriginalSource>
+						<ms:hasOriginalSource>
+							<ms:resourceNames>
+								<ms:resourceName lang="en">WikiNews</ms:resourceName>
+						</ms:resourceNames>
+						</ms:hasOriginalSource>
+					</ms:originalSources>
+					<ms:creationMode>automatic</ms:creationMode>
+				</ms:creationInfo>
+			</ms:languageDescriptionTextInfo>
+		</ms:languageDescriptionMediaType>
+	</ms:languageDescriptionInfo>
+</ms:languageDescriptionMetadataRecord>

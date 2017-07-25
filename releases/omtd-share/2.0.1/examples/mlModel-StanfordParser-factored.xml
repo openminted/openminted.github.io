@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ms:languageDescriptionMetadataRecord xsi:schemaLocation="http://www.meta-share.org/OMTD-SHARE_XMLSchema http://www.meta-share.org/OMTD-SHARE_XMLSchema/v201/OMTD-SHARE-LanguageDescription.xsd" xmlns:ms="http://www.meta-share.org/OMTD-SHARE_XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ms:metadataHeaderInfo>
+		<ms:metadataRecordIdentifier metadataIdentifierSchemeName="other" ms:schemeURI="http://www.openminted.eu">Identifier created automatically by OpenMinTeD</ms:metadataRecordIdentifier>
+		<ms:metadataCreationDate>2017-06-07</ms:metadataCreationDate>
+		<ms:metadataCreators>
+			<ms:metadataCreator>
+				<ms:separateNames>
+					<ms:surnames>
+						<ms:surname lang="en">Labropoulou</ms:surname>
+					</ms:surnames>
+					<ms:givenNames>
+						<ms:givenName lang="en">Penny</ms:givenName>
+					</ms:givenNames>
+				</ms:separateNames>
+				<ms:personIdentifiers>
+					<ms:personIdentifier personIdentifierSchemeName="ORCID">0000-0001-5123-7890</ms:personIdentifier>
+				</ms:personIdentifiers>
+				<ms:sex>female</ms:sex>
+				<ms:communicationInfo>
+					<ms:emails>
+						<ms:email>penny@ilsp.gr</ms:email>
+						<ms:email/>
+					</ms:emails>
+				</ms:communicationInfo>
+				<ms:affiliations>
+					<ms:affiliation>
+						<ms:position>Senior researcher</ms:position>
+						<ms:affiliatedOrganization>
+							<ms:organizationNames>
+								<ms:organizationName lang="en">Athena RC</ms:organizationName>
+							</ms:organizationNames>
+							<ms:departmentNames>
+								<ms:departmentName lang="en">Institute for Language and Speech Processing</ms:departmentName>
+							</ms:departmentNames>
+						</ms:affiliatedOrganization>
+					</ms:affiliation>
+				</ms:affiliations>
+			</ms:metadataCreator>
+		</ms:metadataCreators>
+	</ms:metadataHeaderInfo>
+	<ms:languageDescriptionInfo>
+		<ms:resourceType>languageDescription</ms:resourceType>
+		<ms:identificationInfo>
+			<ms:resourceNames>
+				<ms:resourceName lang="en">Stanford parser - factored - German</ms:resourceName>
+			</ms:resourceNames>
+			<ms:descriptions>
+				<ms:description lang="en"> ML model for the Stanford parser - factored variant - for German</ms:description>
+			</ms:descriptions>
+			<ms:resourceIdentifiers>
+				<ms:resourceIdentifier resourceIdentifierSchemeName="other">Identifier to be created automatically by OpenMinTeD</ms:resourceIdentifier>
+			</ms:resourceIdentifiers>
+			<ms:public>true</ms:public>
+		</ms:identificationInfo>
+		<ms:contactInfo>
+			<ms:landingPage>https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/DKPro%20Core%20Documentation%20(GitHub)/de.tudarmstadt.ukp.dkpro.core$de.tudarmstadt.ukp.dkpro.core.doc-asl/doclinks/5/model-reference.html#model-de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-de-factored</ms:landingPage>
+		</ms:contactInfo>
+		<ms:versionInfo>
+			<ms:versionDate>20150129</ms:versionDate>
+		</ms:versionInfo>
+		<ms:distributionInfos>
+			<ms:datasetDistributionInfo>
+				<ms:distributionLoc>
+					<ms:distributionMedium>downloadable</ms:distributionMedium>
+					<ms:distributionLocation>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-de-factored</ms:distributionLocation>
+				</ms:distributionLoc>
+				<ms:rightsInfo>
+					<ms:licenceInfos>
+						<ms:licenceInfo>
+							<ms:licence>nonStandardLicenceTerms</ms:licence>
+						</ms:licenceInfo>
+					</ms:licenceInfos>
+				</ms:rightsInfo>
+			</ms:datasetDistributionInfo>
+		</ms:distributionInfos>
+		<ms:languageDescriptionType>mlModel</ms:languageDescriptionType>
+		<ms:modelOperationInfo>
+			<ms:variant>factored</ms:variant>
+			<ms:typesystem>
+				<ms:resourceNames>
+					<ms:resourceName>STTS</ms:resourceName>
+				</ms:resourceNames>
+			</ms:typesystem>
+		</ms:modelOperationInfo>
+		<ms:languageDescriptionEncodingInfo>
+			<ms:encodingLevels>
+				<ms:encodingLevel>morphology</ms:encodingLevel>
+				<ms:encodingLevel>syntax</ms:encodingLevel>
+			</ms:encodingLevels>
+		</ms:languageDescriptionEncodingInfo>
+		<ms:relations>
+			<ms:relationInfo>
+				<ms:relationType>isCompatibleWith</ms:relationType>
+				<ms:relatedResource>
+					<ms:resourceNames>
+						<ms:resourceName lang="en">Stanford Parser</ms:resourceName>
+					</ms:resourceNames>
+					<ms:resourceIdentifiers>
+						<ms:resourceIdentifier resourceIdentifierSchemeName="maven">mvn:de.tudarmstadt.ukp.dkpro.core:de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl:1.9.0-SNAPSHOT#de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser</ms:resourceIdentifier>
+					</ms:resourceIdentifiers>
+				</ms:relatedResource>
+			</ms:relationInfo>
+		</ms:relations>
+		<ms:languageDescriptionMediaType>
+			<ms:languageDescriptionTextInfo>
+				<ms:mediaType>text</ms:mediaType>
+				<ms:lingualityInfo>
+					<ms:lingualityType>monolingual</ms:lingualityType>
+				</ms:lingualityInfo>
+				<ms:languages>
+					<ms:languageInfo>
+						<ms:language>
+							<ms:languageTag>de</ms:languageTag>
+						</ms:language>
+					</ms:languageInfo>
+				</ms:languages>
+			</ms:languageDescriptionTextInfo>
+		</ms:languageDescriptionMediaType>
+	</ms:languageDescriptionInfo>
+</ms:languageDescriptionMetadataRecord>
