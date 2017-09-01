@@ -28,6 +28,9 @@
   - title: "2.0.1"
     url: "/releases/omtd-share/2.0.1"
 
+- title: Docker Specification
+  url: "/releases/docker-spec/1.0/specification"
+
 - title: More
   side: left
   dropdown:
