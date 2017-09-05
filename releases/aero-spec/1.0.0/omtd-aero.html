@@ -1,0 +1,2120 @@
+---
+layout: asciidoctor-page
+title: "OpenMinTeD AERO Protocol"
+version: "1.0.0"
+tocify: true
+asciidoctorstyle: true
+---
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_api">API</a>
+<ul class="sectlevel2">
+<li><a href="#_data_structures">Data Structures</a>
+<ul class="sectlevel3">
+<li><a href="#_aero_json_response">AERO JSON response</a></li>
+<li><a href="#_constant_values">Constant Values</a></li>
+</ul>
+</li>
+<li><a href="#_calls">Calls</a>
+<ul class="sectlevel3">
+<li><a href="#_projects">Projects</a>
+<ul class="sectlevel4">
+<li><a href="#_list_projects">List Projects</a></li>
+<li><a href="#_create_project">Create Project</a></li>
+<li><a href="#_delete_project">Delete Project</a></li>
+<li><a href="#_import_project">Import Project</a></li>
+<li><a href="#_export_project">Export Project</a></li>
+</ul>
+</li>
+<li><a href="#_documents">Documents</a>
+<ul class="sectlevel4">
+<li><a href="#_list_documents">List Documents</a></li>
+<li><a href="#_create_document">Create Document</a></li>
+<li><a href="#_read_document">Read Document</a></li>
+<li><a href="#_delete_document">Delete Document</a></li>
+</ul>
+</li>
+<li><a href="#_annotations">Annotations</a>
+<ul class="sectlevel4">
+<li><a href="#_list_annotations">List Annotations</a></li>
+<li><a href="#_create_annotations">Create Annotations</a></li>
+<li><a href="#_read_annotations">Read Annotations</a></li>
+<li><a href="#_delete_annotations">Delete Annotations</a></li>
+</ul>
+</li>
+<li><a href="#_curations">Curations</a>
+<ul class="sectlevel4">
+<li><a href="#_list_curations">List Curations</a></li>
+<li><a href="#_create_curations">Create Curations</a></li>
+<li><a href="#_read_curations">Read Curations</a></li>
+<li><a href="#_delete_curations">Delete Curations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The purpose of AERO is to embed a (generic) annotation editor within a service NLP/TDM infrastructure. The protocol focuses on actions triggered by the infrastructure. No dependencies of the annotation editor on the infrastructure are introduced. This ensures that the annotation editor can be embedded in various different infrastructures that support AERO.</p>
+</div>
+<div class="paragraph">
+<p>An infrastructure often offers multiple services, e.g. a registry/catalog and a storage system. If an annotation editor needs to be aware of these services, it creates a strong coupling of the editor with the surrounding platform and actions such as opening a document or searching for a document can easily require replicating a significant part of the functionality of these other services. Hence, it is more sensible to design a protocol that allows embedding arbitrary annotation editors in a platform without introducing dependencies on the surrounding platform.</p>
+</div>
+<div class="paragraph">
+<p>Many annotation editors - even web-based ones - do not offer any remote API at all. They cannot be embedded in an infrastructure. Transferring data between the infrastructure and the editor always requires the user importing/exporting the data. AERO provides a set of calls and data structures that enable a basic set of interactions related to managing project, documents, annotations, and curated annotations. As such, it is suitable for annotation editors that support these concepts, e.g. WebAnno, AlvisAE, brat, etc.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api"><a class="anchor" href="#_api"></a>API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explains the data structures and API calls defined by AERO.</p>
+</div>
+<div class="sect2">
+<h3 id="_data_structures"><a class="anchor" href="#_data_structures"></a>Data Structures</h3>
+<div class="sect3">
+<h4 id="_aero_json_response"><a class="anchor" href="#_aero_json_response"></a>AERO JSON response</h4>
+<div class="paragraph">
+<p>The response provides an envelop for a returned data structure. In addition to the actual response in the "body", the envelope contains a field for “messages”. Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">WARN</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Internal error while accessing document 10.</span><span class="delimiter">&quot;</span></span>,
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">32</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">sample.txt</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CURATION_FINISHED</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">33</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">essay001.xmi</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">NEW</span><span class="delimiter">&quot;</span></span>
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A message always contains a "level" and a "text" field. The text must be a string. Acceptable values for the "level" field are the strings:</p>
+</div>
+<div class="ulist">
+<div class="title">Log levels</div>
+<ul>
+<li>
+<p><code>ERROR</code> - if there is an error, then typically the body is empty.</p>
+</li>
+<li>
+<p><code>WARN</code> - if there is a warning, then the body might be incomplete.</p>
+</li>
+<li>
+<p><code>INFO</code> - an informative message, typically a confirmation message that the action requested by the client has been performed.</p>
+</li>
+<li>
+<p><code>DEBUG</code> - an AERO server should never generate debug messages unless specifically configured to do so by its administrator</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_constant_values"><a class="anchor" href="#_constant_values"></a>Constant Values</h4>
+<div class="ulist">
+<div class="title">Document status</div>
+<ul>
+<li>
+<p><code>NEW</code></p>
+</li>
+<li>
+<p><code>ANNOTATION-IN-PROGRESS</code></p>
+</li>
+<li>
+<p><code>ANNOTATION-COMPLETE</code></p>
+</li>
+<li>
+<p><code>CURATION-IN-PROGRESS</code></p>
+</li>
+<li>
+<p><code>CURATION-COMPLETE</code></p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Annotation status</div>
+<ul>
+<li>
+<p><code>NEW</code></p>
+</li>
+<li>
+<p><code>LOCKED</code></p>
+</li>
+<li>
+<p><code>IN-PROGRESS</code></p>
+</li>
+<li>
+<p><code>COMPLETE</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_calls"><a class="anchor" href="#_calls"></a>Calls</h3>
+<div class="paragraph">
+<p>This section explains the API calls defined by AERO. All the calls are relative to a base URL which depends on the URL where the annotation tool is hosted. It is recommended but not mandatory that the URL includes <code>aero</code> and <code>v1</code>, e.g. <code><a href="http://annotool.myorg.com/api/aero/v1/" class="bare">http://annotool.myorg.com/api/aero/v1/</a></code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_projects"><a class="anchor" href="#_projects"></a>Projects</h4>
+<div class="sect4">
+<h5 id="_list_projects"><a class="anchor" href="#_list_projects"></a>List Projects</h5>
+<div class="paragraph">
+<p>Produce a list of all projects accessible by the current user.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List projects</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+<strong>10</strong>
+11
+12
+13
+14
+15
+16
+17
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>:[
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project A</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project B</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">28</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project C</span><span class="delimiter">&quot;</span></span>
+    }
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 403 - Access forbidden</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Permission denied.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_create_project"><a class="anchor" href="#_create_project"></a>Create Project</h5>
+<div class="paragraph">
+<p>Creates a new project. By default, the user that invokes this action receives permissions on the project equivalent to those of a project manager, e.g. the user should be able to add/remove documents to/from the project. If the "creator" parameter is set, then these permissions are granted to the specified user instead of the current user. This is important such that the PLATFORM can invoke this action using an administrative user account on behalf of a real user. The "creator" should in this case be the real user, not the administrative user used by the PLATFORM.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">multipart/form-data</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>name</code> - project name (required)</p>
+</li>
+<li>
+<p><code>creator</code> - username of the owner of the project (optional)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 201</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">13</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test</span><span class="delimiter">&quot;</span></span>
+  }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 403 - Access forbidden</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Permission denied.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Code 404 - creator user not found</dt>
+<dd>
+<p>Content: AERO JSON response</p>
+</dd>
+<dt class="hdlist1">Code: 409 - Project with the name already exists</dt>
+<dd>
+<p>Content: AERO JSON response</p>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_delete_project"><a class="anchor" href="#_delete_project"></a>Delete Project</h5>
+<div class="paragraph">
+<p>Deletes the specified project. This also entails the deletion of all documents and annotations in the project.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">INFO</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project 13 deleted.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 403 - Access forbidden</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Permission denied.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Code 404 - Project not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_import_project"><a class="anchor" href="#_import_project"></a>Import Project</h5>
+<div class="paragraph">
+<p>Imports a ZIP archive containing a previously exported project. If a project with the name as indicated by the metadata in the ZIP archive already exists, the imported project is created under a different name. E.g. if the name of the project is "My project" and a project by this name already exists, then the system can create the project under the name "My project 1". The name of the created project and its ID are returned as part of the result.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/import</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>file</code> - ZIP file</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">13</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test</span><span class="delimiter">&quot;</span></span>
+  }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 403 - Access forbidden</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Permission denied.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_export_project"><a class="anchor" href="#_export_project"></a>Export Project</h5>
+<div class="paragraph">
+<p>Exports the whole project as a ZIP archive. This archive can be imported again using the "Import project" action.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Export project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/export.zip</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>application/zip</p>
+</li>
+<li>
+<p>application/json;charset=UTF-8 (AERO JSON response)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<p>Content: ZIP archive</p>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 403 - Access forbidden</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Permission denied.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_documents"><a class="anchor" href="#_documents"></a>Documents</h4>
+<div class="sect4">
+<h5 id="_list_documents"><a class="anchor" href="#_list_documents"></a>List Documents</h5>
+<div class="paragraph">
+<p>List all documents in a project.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List documents</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+<strong>10</strong>
+11
+12
+13
+14
+15
+16
+17
+18
+19
+<strong>20</strong>
+21
+22
+23
+24
+25
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">32</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">sample.txt</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CURATION-FINISHED</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">33</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">essay001.xmi</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">NEW</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">34</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">essay002.xmi</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">NEW</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">18</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">fi3le.txt</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">NEW</span><span class="delimiter">&quot;</span></span>
+    }
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_create_document"><a class="anchor" href="#_create_document"></a>Create Document</h5>
+<div class="paragraph">
+<p>Create/import a new document in the project.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create document</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/octet-stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>name</code> - name of the document</p>
+</li>
+<li>
+<p><code>format</code> - format of documents</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>TEXT</code> - only plain text (currently the only format that must be supported by all AERO servers; servers may support other formats)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>content</code> - the document in the specified format (binary)</p>
+</li>
+<li>
+<p><code>state</code> - a document state  (optional, allowed values: <code>NEW</code> (default), <code>ANNOTATION-IN-PROGRESS</code>, <code>ANNOTATION-FINISHED</code>)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 201</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">33</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Essay 12”
+  }
+}</span></span></pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_read_document"><a class="anchor" href="#_read_document"></a>Read Document</h5>
+<div class="paragraph">
+<p>Exports the specified document. Unless specified otherwise, the format in which the documents is exported corresponds to the format in which the document was imported or to the default format of the application. The application may choose to indicate the produced format by setting a media type other than application/octet-stream for the response.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It was considered to use content-negotiation instead of the "format" parameter. However, content-negotiation typically uses common mime-types and for many of the formats usually used by annotation editors, there are no suitable mime-types. E.g. one could use "text/tab-separated-values" for CoNLL formats, but that would not convey sufficient information about the semantics of the columns to enable the import/export of the document / which specific CoNLL year to use.
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Export document</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}[?format={format}]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>application/octet-stream</p>
+</li>
+<li>
+<p>application/json;charset=UTF-8 (AERO JSON response)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>name</code> - name of the document</p>
+</li>
+<li>
+<p><code>documentId</code> - ID of the document (mandatory)</p>
+</li>
+<li>
+<p><code>format</code> - format of annotations</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AUTO</code> - plain text or original format (depending on what is possible</p>
+</li>
+<li>
+<p><code>ORIGINAL</code> - only original format allowed</p>
+</li>
+<li>
+<p><code>TEXT</code> - only plain text</p>
+</li>
+<li>
+<p>Other values depending on the format supported by the AE</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<p>Content: document</p>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project or document not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_delete_document"><a class="anchor" href="#_delete_document"></a>Delete Document</h5>
+<div class="paragraph">
+<p>Delete a document from the project. Deleting the document also deletes all annotations on the document.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete document</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p><code>documentId</code> - ID of the document (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">INFO</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Document deleted.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project or document not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_annotations"><a class="anchor" href="#_annotations"></a>Annotations</h4>
+<div class="sect4">
+<h5 id="_list_annotations"><a class="anchor" href="#_list_annotations"></a>List Annotations</h5>
+<div class="paragraph">
+<p>List annotations in the project.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List annotations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/annotations</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p>`documentId - ID of the document (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 201</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+<strong>10</strong>
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">body</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">richard</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">NEW</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">anshul</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">IN-PROGRESS</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">timestamp</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">2016-09-24T10:43:54+0200</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">abc</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLETE</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">timestamp</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">2016-09-24T10:46:28+0200</span><span class="delimiter">&quot;</span></span>
+    }
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project or document not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_create_annotations"><a class="anchor" href="#_create_annotations"></a>Create Annotations</h5>
+<div class="paragraph">
+<p>Create/import annotations on top of an already existing document. We consider here only the simple case which is that if there are already any existing annotations for the designated user, they will be replaced with the annotations that are uploaded - they will not be merged.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create annotations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/annotations/{annotator}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/octet-stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p>`documentId - ID of the document (mandatory)</p>
+</li>
+<li>
+<p>`annotator - ID of the user who created the annotations (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">INFO</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Annotations imported.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project, document, or annotation not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Code 415 - Unsupported format</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported format.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_read_annotations"><a class="anchor" href="#_read_annotations"></a>Read Annotations</h5>
+<div class="paragraph">
+<p>Read/export annotations for a document.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read annotations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/annotations/{annotator}[?format={format}]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>application/octet-stream</p>
+</li>
+<li>
+<p>application/json;charset=UTF-8 (AERO JSON response)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p><code>documentId</code> - ID of the document (mandatory)</p>
+</li>
+<li>
+<p><code>annotator</code> - ID of the user who created the annotations (mandatory)</p>
+</li>
+<li>
+<p><code>format</code> - format of annotations</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AUTO</code> - plain text or original format (depending on what is possible</p>
+</li>
+<li>
+<p><code>ORIGINAL</code> - only original format allowed</p>
+</li>
+<li>
+<p><code>TEXT</code> - only plain text</p>
+</li>
+<li>
+<p>Other values depending on the format supported by the AE</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<p>Content: the annotation file</p>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project, document, or annotation not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_delete_annotations"><a class="anchor" href="#_delete_annotations"></a>Delete Annotations</h5>
+<div class="paragraph">
+<p>Delete the annotations of a user on a given document from a project.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete annotations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/annotations/{annotator}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p>`documentId - ID of the document (mandatory)</p>
+</li>
+<li>
+<p>`annotator - ID of the user who created the annotations (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">INFO</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Annotations deleted.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project, document, or annotation not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_curations"><a class="anchor" href="#_curations"></a>Curations</h4>
+<div class="sect4">
+<h5 id="_list_curations"><a class="anchor" href="#_list_curations"></a>List Curations</h5>
+<div class="paragraph">
+<p>There is no dedicated call to list curations. The status of the curation process is tracked at the document level and is available via the "list documents" call.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_create_curations"><a class="anchor" href="#_create_curations"></a>Create Curations</h5>
+<div class="paragraph">
+<p>Create/import curated annotations for a document.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create curations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/curation</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/octet-stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p><code>documentId</code> - ID of the document (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>format</code> - format of annotations depending on the format supported by the AE</p>
+</li>
+<li>
+<p><code>content</code> - the curated annotations in the specified format</p>
+</li>
+<li>
+<p><code>state</code> - a document state (optional, allowed values: <code>CURATION-IN-PROGRESS</code> (default), <code>CURATION-COMPLETE</code>)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">INFO</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Curation imported.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project, document, or curated annotations not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Document not found.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_read_curations"><a class="anchor" href="#_read_curations"></a>Read Curations</h5>
+<div class="paragraph">
+<p>Read/export curated annotations for a document.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read curations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/curation[?format={format}]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>application/octet-stream</p>
+</li>
+<li>
+<p>application/json;charset=UTF-8 (AERO JSON response)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p><code>documentId</code> - ID of the document (mandatory)</p>
+</li>
+<li>
+<p><code>format</code> - format of annotations</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AUTO</code> - plain text or original format (depending on what is possible</p>
+</li>
+<li>
+<p><code>ORIGINAL</code> - only original format allowed</p>
+</li>
+<li>
+<p><code>TEXT</code> - only plain text</p>
+</li>
+<li>
+<p>Other values depending on the format supported by the AE</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<p>Content: the curated annotation file</p>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project, document, or annotation not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Project does not exist.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_delete_curations"><a class="anchor" href="#_delete_curations"></a>Delete Curations</h5>
+<div class="paragraph">
+<p>Delete curated annotations for a document.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Title</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete curations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/projects/{projectId}/documents/{documentId}/curation</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Method</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Consumes</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/octet-stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Produces</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">application/json;charset=UTF-8 (AERO JSON response)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>URL params</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>projectId</code> - ID of the project (mandatory)</p>
+</li>
+<li>
+<p><code>documentId</code> - ID of the document (mandatory)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 200</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">INFO</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Curation deleted.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Error response</strong></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="dlist">
+<dl>
+<dt class="hdlist1">Code 404 - Project, document, or curated annotations not found</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">messages</span><span class="delimiter">&quot;</span></span>: [
+    { <span class="key"><span class="delimiter">&quot;</span><span class="content">level</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ERROR</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Document not found.</span><span class="delimiter">&quot;</span></span>}
+  ]
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
