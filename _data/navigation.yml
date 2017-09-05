@@ -29,7 +29,7 @@
     url: "/releases/omtd-share/2.0.1"
 
 - title: Docker Specification
-  url: "/releases/docker-spec/0.1/specification"
+  url: "/releases/docker-spec/0.1.0/specification"
   side: left
 
 - title: Processing Web Services
