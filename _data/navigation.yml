@@ -6,35 +6,23 @@
   url: "/"
   side: left
 
-- title: Specification
-  url: "/releases/interop-spec/1.0.0/openminted-interoperability-spec"
+- title: Specifications
   side: left
   dropdown:
-  - title: "1.0.0"
-    url: "/releases/interop-spec/1.0.0/openminted-interoperability-spec"
-  - title: "1.1.0"
-    url: "/releases/interop-spec/1.1.0/openminted-interoperability-spec"
-  - title: "Latest (SNAPSHOT)"
-    url: "https://builds.openminted.eu/job/WP%205.2%20-%20Interoperability%20Specification/eu.openminted.interop$openminted-interoperability-spec/doclinks/1/"
-
-- title: OMTD-SHARE
-  url: "/releases/omtd-share/"
-  side: left
-  dropdown:
-  - title: "1.0.0"
-    url: "/releases/omtd-share/1.0.0"
-  - title: "2.0.0"
-    url: "/releases/omtd-share/2.0.0"
-  - title: "2.0.1"
-    url: "/releases/omtd-share/2.0.1"
-
-- title: Docker Specification
-  url: "/releases/docker-spec/0.1.0/specification"
-  side: left
-
-- title: Processing Web Services
-  url: "/releases/processing-web-services/1.0.0/specification"
-  side: left
+  - title: "Interoperability Specification"
+    url: "/releases/interop-spec"
+  - title: OMTD-SHARE
+    url: "/releases/omtd-share"
+    side: left
+  - title: Docker Specification
+    url: "/releases/docker-spec"
+    side: left
+  - title: Processing Web Services
+    url: "/releases/ws-spec"
+    side: left
+  - title: AERO
+    url: "/releases/aero-spec"
+    side: left
 
 - title: More
   side: left
