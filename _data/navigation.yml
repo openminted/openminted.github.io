@@ -23,6 +23,9 @@
   - title: AERO
     url: "/releases/aero-spec"
     side: left
+  - title: License Compatibility Matrix
+    url: "/releases/license-matrix"
+    side: left
 
 - title: More
   side: left

@@ -1,0 +1,15 @@
+---
+layout: page-iframe
+title: "OMTD License Compatibility Matrix"
+version: "1.0.0-SNAPSHOT"
+---
+<script language="javascript" type="text/javascript">
+    function resizeIframe(obj) {
+        var height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
+        obj.style.top = $("#navigation").outerHeight() + 'px';
+        obj.style.height = (height - $("#navigation").outerHeight()) + 'px';
+    }
+</script>
+<div>Loading...</div>
+<iframe style="margin: 0px; padding: 0px; width: 100%; position: fixed; z-index: 90;" name="content" id="content" frameborder="0" 
+  onload="resizeIframe(this)" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTr2ImZmfLdg2nzWFxwJEspUVosIuUdFYBygbK6ooOvdhbz_XE2CH5HGL9V322JKK6wbI52sy3HKkEG/pubhtml#"></iframe>
