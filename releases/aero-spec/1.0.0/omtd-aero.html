@@ -58,6 +58,7 @@ asciidoctorstyle: true
 </li>
 </ul>
 </div>
+</div>
 <div id="content">
 <div class="sect1">
 <h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
@@ -1447,7 +1448,19 @@ It was considered to use content-negotiation instead of the "format" parameter. 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data params</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p><code>format</code> - format of annotations</p>
+</li>
+<li>
+<p><code>content</code> - the document in the specified format (binary)</p>
+</li>
+<li>
+<p><code>state</code> - an annotation state  (optional, allowed values: <code>NEW</code> (default), <code>IN-PROGRESS</code>, <code>COMPLETE</code>)</p>
+</li>
+</ul>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Success response</strong></p></td>
