@@ -1,0 +1,333 @@
+= UIMA components using Maven and uimaFIT
+
+== Prerequisites
+
+This document assumes that you are using Eclipse Neon or newer.footnote:[For a continuously updated version of this document, please visit https://github.com/openminted/omtd-uimafit-example ].  A basic familiarity with Java, Maven, and git/GitHub are also expected.
+
+== Developer Environment Setup
+
+* Install Java 8
+* Install Eclipse Neon IDE for Java Developers 
+* Install the UIMA Eclipse plugins from this Eclipse update site `http://www.apache.org/dist/uima/eclipse-update-site/`
+* Install the latest version of Maven so you can use it fro the command line
+
+== Project Setup
+
+This section walks you through the basic steps of implementing a simple UIMA component which simply
+annotates all tokens matching a dictionary entry as named entities. 
+
+First, we will set up a Maven project
+
+* Create a new Maven project
+* Configure the project for Java 8 and UTF-8 encoding
+
+.Setting properties for Java 8 and UTF-8 encoding in the POM
+----
+<properties>
+  <maven.compiler.target>1.8</maven.compiler.target>
+  <maven.compiler.source>1.8</maven.compiler.source>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+----
+
+* Add a dependency on uimafit 2.2.0
+
+.uimaFIT dependency in the POM
+[source,xml,indent=0]
+----
+<dependency>
+  <groupId>org.apache.uima</groupId>
+  <artifactId>uimafit-core</artifactId>
+  <version>2.2.0</version>
+</dependency>
+----
+
+To keep this example basic, we will make use of a DKPro Core component for tokenization. However, 
+for illustration purposes, we will define our own annotation type for named entities instead of
+re-using the one defined by DKPro Core. The following dependency provides us amongst other things 
+with the `BreakIteratorSegmenter` and with the annotation type `Token`. We omit the full package
+names here, but you can see them in the code samples later.
+
+.DKPro Core dependency in the POM
+[source,xml,indent=0]
+----
+<dependency>
+  <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+  <artifactId>de.tudarmstadt.ukp.dkpro.core.tokit-asl</artifactId>
+  <version>1.8.0</version>
+</dependency>
+----
+
+== Create a named entity type
+
+Now, we create our custom named entity type. 
+
+* Create a packaged called `eu.openminted.example.uimafit` in the folder `src/main/resources`
+* Right-click on the folder `uimafit` that was created by this action and select *New -> Other -> UIMA -> Type System Descriptor File*
+* Confirm the creation dialog to create a file called `typeSystemDescriptor.xml` and to open it for editing.
+* Switch to the tab *Type System*
+* Click *Add Type*
+* Set the type name to `eu.openminted.example.uimafit.NamedEntity` and leave the supertype at `uima.tcas.Annotation`
+* Click *Ok* to finish the type creation
+
+Next, we configure Maven to automatically create a Java representation of this new type for us.
+To achieve this, add the following profile to you POM.
+
+.JCasGen profile
+[source,xml,indent=0]
+----
+<profile>
+  <id>run-jcasgen</id>
+  <activation>
+    <file>
+      <exists>src/main/resources/META-INF/org.apache.uima.fit/types.txt</exists>
+    </file>
+  </activation>
+  <build>
+    <plugins>
+      <plugin>
+        <!--generate types dynamically -->
+        <groupId>org.apache.uima</groupId>
+        <artifactId>jcasgen-maven-plugin</artifactId>
+        <version>2.9.0</version>
+        <configuration>
+          <limitToProject>true</limitToProject>
+          <typeSystemIncludes>
+            <include>src/main/resources/eu/openminted/example/uimafit/typeSystemDescriptor.xml</include>
+          </typeSystemIncludes>
+        </configuration>
+        <executions>
+          <execution>
+            <!--call it in the generate-source phase -->
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.10</version>
+        <executions>
+          <execution>
+            <id>addToSourceFolder</id>
+            <goals>
+              <!--add the generated sources -->
+              <goal>add-source</goal>
+            </goals>
+            <phase>process-sources</phase>
+            <configuration>
+              <sources>
+                <!--default path to generated sources -->
+                <source>${project.build.directory}/generated-sources/jcasgen</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</profile>
+----
+
+Next, we create a configuration file that makes uimaFIT aware of our new type. This file also will activate the profile we just defined.
+
+* Create a simple text file `src/main/resources/META-INF/org.apache.uima.fit/types.txt` with the following content
+
+.uimaFIT types.txt file
+[source,text,indent=0]
+----
+classpath*:eu/openminted/example/uimafit/typeSystemDescriptor.xml
+----
+
+* Right-click on the project in the *Project Explorer* and select *Maven -> Update Project* and click *Ok* to get the Java representations created and added to the project.
+
+== Create a named entity tagger
+
+Next, we create a class implementing our simple UIMA component in the `src/main/java` source folder. Mind to first create the package `eu.openminted.example.uimafit` and then to create the class `NamedEntityTagger` in that package.
+
+.Simple dictionary-based named entity tagger class `NamedEntityTagger`
+[source,java,indent=0]
+----
+package eu.openminted.example.uimafit;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.fit.descriptor.TypeCapability;
+import org.apache.uima.fit.util.JCasUtil;
+import org.apache.uima.jcas.JCas;
+
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+
+@TypeCapability(inputs="eu.openminted.example.uimafit.NamedEntity.NamedEntity")
+public class NamedEntityTagger
+    extends JCasAnnotator_ImplBase
+{
+    private List<String> dictionary = Arrays.asList("John", "Fred", "Lilly");
+
+    @Override
+    public void process(JCas aJCas)
+        throws AnalysisEngineProcessException
+    {
+        for (Token t : JCasUtil.select(aJCas, Token.class)) {
+            if (dictionary.contains(t.getCoveredText())) {
+                new NamedEntity(aJCas, t.getBegin(), t.getEnd()).addToIndexes();
+            }
+        }
+    }
+}
+----
+
+== Test the named entity tagger
+
+To check if the component works, we now add a simple unit test. 
+
+* Add a test-scoped dependency on JUnit
+
+.JUnit dependency in the POM
+[source,xml,indent=0]
+----
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.12</version>
+  <scope>test</scope>
+</dependency>
+----
+
+Now create the unit test in the `src/test/java` source folder. Mind to first create the package `eu.openminted.example.uimafit` and then to create the class `NamedEntityTaggerTest` in that package.
+
+.Simple dictionary-based named entity tagger class `NamedEntityTagger`
+[source,java,indent=0]
+----
+package eu.openminted.example.uimafit;
+
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.apache.uima.fit.factory.JCasFactory.createText;
+import static org.apache.uima.fit.pipeline.SimplePipeline.runPipeline;
+import static org.apache.uima.fit.util.JCasUtil.select;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.jcas.JCas;
+import org.junit.Assert;
+import org.junit.Test;
+
+import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
+
+public class NamedEntityTaggerTest
+{
+    @Test
+    public void test()
+        throws Exception
+    {
+        JCas document = createText("John likes Lilly. That makes Fred jealous.", "en");
+        AnalysisEngineDescription segmenter = createEngineDescription(BreakIteratorSegmenter.class);
+        AnalysisEngineDescription tagger = createEngineDescription(NamedEntityTagger.class);
+        
+        runPipeline(document, segmenter, tagger);
+        
+        List<NamedEntity> entities = new ArrayList<>(select(document, NamedEntity.class));
+        Assert.assertEquals("John", entities.get(0).getCoveredText());
+        Assert.assertEquals("Lilly", entities.get(1).getCoveredText());
+        Assert.assertEquals("Fred", entities.get(2).getCoveredText());
+    }
+}
+----
+
+To check if all is well, right-click on the test class and select *Run as -> JUnit test*.
+
+== Metadata
+
+Before wrapping up, it is a good idea to add more metadata to your project and component.
+
+First, add some basic information about your project to the POM. Mind to replace the example information below with your own information.
+
+----
+<name>OpenMinTeD uimaFIT example</name>
+<description>This is a simple example project containing a single UIMA component.</description>
+<url>https://github.com/your-github-account/your-project</url>
+<organization>
+  <name>Your organization name</name>
+  <url>http://your.organization.com</url>
+</organization>
+<inceptionYear>2017</inceptionYear>
+----
+
+Now, add license metadata to the POM. We assume that you release your component under the Apache License 2.0.
+
+.License information in the POM
+[source,xml,indent=0]
+----
+<licenses>
+    <license>
+        <name>Apache License Version 2.0</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+    </license>
+</licenses>
+----
+
+Next, we generate a UIMA XML descriptor for the component via the uimaFIT Maven plugin. Additionally,
+this will create a file `META-INF/org.apache.uima.fit/components.txt` that contains a pointer to your component. As there can be multiple components are arbitrary locations in a project, this `components.txt` file residing in a well-known location can be used to locate the components.
+
+.uimaFIT Maven plugin in the POM
+[source,xml,indent=0]
+----
+<plugin>
+    <groupId>org.apache.uima</groupId>
+    <artifactId>uimafit-maven-plugin</artifactId>
+    <version>2.2.0</version>
+    <configuration>
+        <componentVendor>Your name</componentVendor>
+        <componentCopyright>
+            Copyright 2016
+            Your organization
+        </componentCopyright>
+        <failOnMissingMetaData>false</failOnMissingMetaData>
+    </configuration>
+    <executions>
+        <execution>
+            <id>default</id>
+            <phase>process-classes</phase>
+            <goals>
+                <goal>enhance</goal>
+                <goal>generate</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+----
+
+== Building and packaging
+
+To fully built the project you have just created
+
+* to go a terminal window
+* switch to the directory that contains your project
+* type `mvn clean install`
+
+== Releasing
+
+In order to make a release, you components needs to be in a version control system. We assume that you have the project on GitHub. Mind to replace `your-github-account` and `your-project` with correct values in the snippet below.
+
+.Version control configuration in the POM
+[source,java,indent=0]
+----
+<scm>
+    <connection>scm:git:git://github.com/your-github-account/your-project</connection>
+    <developerConnection>scm:git:git@github.com:your-github-account/your-project.git</developerConnection>
+    <url>https://github.com/your-github-account/your-project</url>
+</scm>
+----
+
+Next, make sure that all your changes are committed.
+
+We assume that you are going to deploy your component to Maven Central. There is a process that goes along with deploying to Maven Central and a number of additional settings that need to be added to the POM. Since this process changes from time to time, we do not document it here, but rather point you to the link:http://central.sonatype.org/pages/apache-maven.html[detailed offical documentation]. This documentation also tells you how to do the release and deployment.
