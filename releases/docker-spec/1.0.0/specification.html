@@ -447,18 +447,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_metadata_recommendations">Metadata specifications</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The dockerized component must be described with an OMTD-SHARE descriptor. This descriptor, which is a separate file and not contained in the Docker image, contains all relevant information about the component such as its ID, how to obtain it via a Docker repository (i.e. the coordinates of the Docker image), the parameters of the component, etc. The OMTD-SHARE descriptor is added in the OpenMinTeD platform when registering a component and is used by the OpenMinTeD platform to automatically generate additional internal configuration files, e.g. to enable the Galaxy-based OpenMinTeD Workflow Service to invoke the component.</p>
+<p>The dockerized component must be described with an OMTD-SHARE descriptor. This descriptor, which is a separate file and not contained in the Docker image, contains all relevant information about the component such as its ID, how to obtain it via a Docker repository (i.e. the location of the Docker image), the parameters of the component, etc. The OMTD-SHARE descriptor is added in the OpenMinTeD platform when registering a component and is used by the OpenMinTeD platform to automatically generate additional internal configuration files, e.g. to enable the Galaxy-based OpenMinTeD Workflow Service to invoke the component.</p>
 </div>
 <div class="paragraph">
-<p>The metadata elements we will mention in the following specification are the ones required for a docker-based component to be identified, pulled, spawned and invoked into OpenMinTeD. The remaining metadata of the OMTD-SHARE descriptor must be encoded in the same way as for the non docker-based components (<a href="https://guidelines.openminted.eu/guidelines_for_providers_of_sw_resources/">see details on how to describe a  software</a>).   See <a href="https://github.com/openminted/alvis-docker/blob/master/documentation/simpleProjector_OMTD_Desc.xml">this example of description with the OMTD schema of a </a>https://github.com/openminted/alvis-docker/blob/master/documentation/simpleProjector_OMTD_Desc.xml[docker-based component].</p>
+<p>The metadata elements we will mention in the following paragraphs are the ones required for a docker-based component to be identified, pulled, spawned and invoked into OpenMinTeD. The remaining metadata of the OMTD-SHARE descriptor must be encoded in the same way as for the non docker-based components (<a href="https://guidelines.openminted.eu/guidelines_for_providers_of_sw_resources/">see details on how to describe a  software</a>).   See <a href="https://github.com/openminted/alvis-docker/blob/master/documentation/simpleProjector_OMTD_Desc.xml">this example of description with the OMTD-SHARE schema of a docker-based component</a>.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>&lt;resourceIdentifier&gt;</strong>: set the component id; for dockerized components, the name used to invoke the component.</p>
+<p><strong>&lt;resourceIdentifier&gt;</strong>: set the component id; for dockerized components, the name used for the component.</p>
 </li>
 <li>
-<p><strong>&lt;command&gt;</strong>: the command used for invoking the component(s) and the id of the component</p>
+<p><strong>&lt;command&gt;</strong>: the command used for invoking the component(s) (including the id of the component if more than one)</p>
 </li>
 <li>
 <p><strong>&lt;inputContentResourceInfo&gt;</strong>: set of elements with the specs for the input resource (i.e. the corpus or document) that will be processed by the component</p>
@@ -470,7 +470,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>&lt;parameterInfos&gt;</strong>: set of elements used for describing the parameters used when running a component</p>
 </li>
 <li>
-<p><strong>&lt;distributionLocation&gt;</strong>: the place where components can be accessed from; for dockerized components, these are the docker coordinates following the Docker conventions</p>
+<p><strong>&lt;distributionLocation&gt;</strong>: the place where components can be accessed from; for dockerized components, this is the location of the Docker image following the Docker conventions</p>
 </li>
 </ul>
 </div>
@@ -658,7 +658,7 @@ The executable must be a parameter that invokes one of the components in the doc
 </ul>
 </div>
 <div class="paragraph">
-<p>In the OMTD descriptor, the tag/coordinates of the docker image is encoded in the <strong>distributionLocation</strong> element, as in the example below where <strong>bibliome</strong> is the repository name, <strong>alvisengine</strong> is the specific tag used to name the alvis image and <strong>1.0.0</strong> is the version of the image.</p>
+<p>In the OMTD descriptor, the tag/location of the docker image is encoded in the <strong>distributionLocation</strong> element, as in the example below where <strong>bibliome</strong> is the repository name, <strong>alvisengine</strong> is the specific tag used to name the alvis image and <strong>1.0.0</strong> is the version of the image.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -671,7 +671,7 @@ The executable must be a parameter that invokes one of the components in the doc
 <div class="ulist">
 <ul>
 <li>
-<p>Up-to-date version of the dockerfile and the required resources for the build process : the build process must end up with a docker image containing the component(s)</p>
+<p>Up-to-date version of the docker file and the required resources for the build process : the build process must end up with a docker image containing the component(s)</p>
 </li>
 <li>
 <p>The OMTD-SHARE descriptor of the docker-based component respecting the above specifications, If there is more than one component in the docker image, each component must have its own OMTD-SHARE descriptor.
