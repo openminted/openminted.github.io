@@ -4,4 +4,4 @@ title: "XMI samples"
 permalink: "/releases/xmiExamples/"
 ---
 
-* XMI samples
+* <a href="/releases/xmiExamples/ΧΜΙsamples.zip">XMI samples</a>
