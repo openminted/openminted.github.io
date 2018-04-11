@@ -1,0 +1,271 @@
+---
+layout: asciidoctor-page
+title: "OMTD-SHARE Java Annotatations"
+version: 3.0.2.5"
+tocify: true
+asciidoctorstyle: true
+---
+<div id="toc" class="toc">
+<div id="toctitle">User Guide</div>
+<ul class="sectlevel1">
+<li><a href="#sect_introduction">Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_useful_links">Useful links</a></li>
+</ul>
+</li>
+<li><a href="#_package_structure">Package structure</a></li>
+<li><a href="#sect_discovery">Discovery</a>
+<ul class="sectlevel2">
+<li><a href="#_making_descriptors_discoverable">Making descriptors discoverable</a></li>
+<li><a href="#_discovering_descriptors">Discovering descriptors</a></li>
+</ul>
+</li>
+<li><a href="#sect_annotation">Annotating components</a></li>
+<li><a href="#sect_maven">Using the Maven Plugin</a>
+<ul class="sectlevel2">
+<li><a href="#_uima_type_mappings">UIMA type mappings</a></li>
+<li><a href="#_mime_type_mappings">MIME type mappings</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The document explains the how to embed OpenMinTeD-SHARE descriptor in software components and
+resource packages and how to use related tooling.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sect_introduction"><a class="anchor" href="#sect_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenMinTeD SHARE is a set of metadata elements to describe text and data-mining (TDM) and natural
+language processing (NLP) resources.</p>
+</div>
+<div class="sect2">
+<h3 id="_useful_links"><a class="anchor" href="#_useful_links"></a>Useful links</h3>
+<div class="paragraph">
+<p>Get sources for this project from GitHub:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/openminted/omtd-share-annotations" class="bare">https://github.com/openminted/omtd-share-annotations</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_package_structure"><a class="anchor" href="#_package_structure"></a>Package structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We expect that the resource you distribute is packaged as a ZIP or JAR file. Within this file,
+you can place your OpenMinTeD descriptors at any location you like best. If you package descriptors
+for TDM software components, you may wish to place them directly next to the classes that
+implement the these components. If you package multiple resources, e.g. annotation schema
+descriptions, in a single ZIP file you might wish to place the respective OpenMinTeD-SHARE
+descriptions directly next to them.</p>
+</div>
+<div class="paragraph">
+<p>However, in order to allow for the automatic detection of your OpenMinTeD-SHARE descriptors, you
+will have to set up a file in a well-known location which points to your descriptors. This is
+described in the next section.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sect_discovery"><a class="anchor" href="#sect_discovery"></a>Discovery</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_making_descriptors_discoverable"><a class="anchor" href="#_making_descriptors_discoverable"></a>Making descriptors discoverable</h3>
+<div class="paragraph">
+<p>In order to make your descriptors discoverable, you have to create a folder called
+<code>META-INF/eu.openminted.share</code> in your ZIP or JAR file. Into this folder, you have to place a file
+called <code>descriptors.txt</code> with pointers to the actual descriptor files.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>descriptors.txt</code> file</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">../../descriptors/Component1.xml
+../../descriptors/Component2.xml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_discovering_descriptors"><a class="anchor" href="#_discovering_descriptors"></a>Discovering descriptors</h3>
+<div class="paragraph">
+<p>We presently provide a convenience API for Java to discover descriptors. Additionally, we assume
+for the moment, that any descriptors you may wish to discover exist on your Java classpath, i.e.
+they are packaged as Maven artifacts.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the near future, we will also provide convenience methods to discover descriptors in
+      explicitly named JAR and ZIP files that do not need to be on the Java classpath.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To locate the descriptors, you can use the <code>DescriptorFactory</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example of locating descriptors using the <code>DescriptorFactory</code> class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">URL</span><span class="type">[]</span> descriptorPaths = DescriptorFactory.scanDescriptors();</code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sect_annotation"><a class="anchor" href="#sect_annotation"></a>Annotating components</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Java classes can be directly annotated with OpenMinTeD-SHARE metadata so you do not have to manually
+maintain a separate XML file. The OpenMinTeD-SHARE Maven Plugin can then be used to generate the
+OpenMinTeD-SHARE descriptor automatically as part of a build.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example OpenMinTeD-SHARE annotations on a Java class</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">eu.openminted.share.annotations.api.Component</span>;
+<span class="keyword">import</span> <span class="include">eu.openminted.share.annotations.api.constants.OperationType</span>;
+
+<span class="annotation">@Component</span>(classes=OperationType.READER)
+<span class="type">class</span> <span class="class">TextCorpusReader</span></code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sect_maven"><a class="anchor" href="#sect_maven"></a>Using the Maven Plugin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A set of properly annotated class files within a Maven project can be automatically processed as part of the build to
+produce the relevant descriptor files using the Maven plugin we provide. To use this plugin simply add the following to
+your existing <code>pom.xml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencies&gt;</span>
+  <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>eu.openminted.share.annotations<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>omtd-share-annotations-api<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>3.0.2.5<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;/dependencies&gt;</span>
+<span class="tag">&lt;build&gt;</span>
+  <span class="tag">&lt;plugins&gt;</span>
+    <span class="tag">&lt;plugin&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>eu.openminted.share.annotations<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;artifactId&gt;</span>omtd-share-annotations-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+      <span class="tag">&lt;version&gt;</span>3.0.2.5<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;executions&gt;</span>
+        <span class="tag">&lt;execution&gt;</span>
+          <span class="tag">&lt;phase&gt;</span>process-classes<span class="tag">&lt;/phase&gt;</span>
+          <span class="tag">&lt;goals&gt;</span>
+            <span class="tag">&lt;goal&gt;</span>generate<span class="tag">&lt;/goal&gt;</span>
+          <span class="tag">&lt;/goals&gt;</span>
+        <span class="tag">&lt;/execution&gt;</span>
+      <span class="tag">&lt;/executions&gt;</span>
+    <span class="tag">&lt;/plugin&gt;</span>
+  <span class="tag">&lt;/plugins&gt;</span>
+<span class="tag">&lt;/build&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that if you already have a <code>repositories</code>, <code>pluginRepositories</code> or <code>build</code> section within your <code>pom.xml</code> you will
+only need to include the relevant repository or plugin element.</p>
+</div>
+<div class="sect2">
+<h3 id="_uima_type_mappings"><a class="anchor" href="#_uima_type_mappings"></a>UIMA type mappings</h3>
+<div class="paragraph">
+<p>UIMA type capabilities can be automatically converted to OMTD-SHARE annotation type information.
+This requires adding an additional configuration to the OMTD-SHARE Maven Plugin:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;plugin&gt;</span>
+  <span class="tag">&lt;groupId&gt;</span>eu.openminted.share.annotations<span class="tag">&lt;/groupId&gt;</span>
+  <span class="tag">&lt;artifactId&gt;</span>omtd-share-annotations-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+  <span class="tag">&lt;version&gt;</span>3.0.2.5<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;executions&gt;</span>
+    ...
+  <span class="tag">&lt;/executions&gt;</span>
+  <span class="tag">&lt;configuration&gt;</span>
+    <span class="tag">&lt;uimaTypeMappings&gt;</span>
+      <span class="tag">&lt;uimaTypeMapping&gt;</span>META-INF/eu.openminted.share/uimaTypeMapping.map<span class="tag">&lt;/uimaTypeMapping&gt;</span>
+    <span class="tag">&lt;/uimaTypeMappings&gt;</span>
+  <span class="tag">&lt;/configuration&gt;</span>
+<span class="tag">&lt;/plugin&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The plugin looks for the mappings in the source paths of the current module as well as its
+dependencies. The intended idea is that the mapping files are maintained in the same place as
+the UIMA type systems they describe. So for example the DKPro Core Named Entity API module
+provides a named entity type and also includes a UIMA-to-OMTD type mapping file which can
+be used by the Maven plugin.</p>
+</div>
+<div class="paragraph">
+<p>The mapping file is a simple Java properties file assigning a UIMA type name to a OMTD-SHARE
+annotation type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token=http://w3id.org/meta-share/omtd-share/Token
+de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence=http://w3id.org/meta-share/omtd-share/Sentence
+de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS=http://w3id.org/meta-share/omtd-share/PartOfSpeech</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mime_type_mappings"><a class="anchor" href="#_mime_type_mappings"></a>MIME type mappings</h3>
+<div class="paragraph">
+<p>MIME types can be automatically converted to OMTD-SHARE data format information. However,
+mind that OMTD-SHARE data formats are usually more specific than MIME types, so there will
+be many cases in which such a mapping is not very useful.
+Enabling the mapping requires adding an additional configuration to the OMTD-SHARE Maven Plugin:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;plugin&gt;</span>
+  <span class="tag">&lt;groupId&gt;</span>eu.openminted.share.annotations<span class="tag">&lt;/groupId&gt;</span>
+  <span class="tag">&lt;artifactId&gt;</span>omtd-share-annotations-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+  <span class="tag">&lt;version&gt;</span>3.0.2.5<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;executions&gt;</span>
+    ...
+  <span class="tag">&lt;/executions&gt;</span>
+  <span class="tag">&lt;configuration&gt;</span>
+    <span class="tag">&lt;uimaTypeMappings&gt;</span>
+      <span class="tag">&lt;uimaTypeMapping&gt;</span>META-INF/eu.openminted.share/mimeTypeMapping.map<span class="tag">&lt;/uimaTypeMapping&gt;</span>
+    <span class="tag">&lt;/uimaTypeMappings&gt;</span>
+  <span class="tag">&lt;/configuration&gt;</span>
+<span class="tag">&lt;/plugin&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The mapping lookup mechanism in the same as for the UIMA type mappings described above.</p>
+</div>
+<div class="paragraph">
+<p>The mapping file is a simple Java properties file assigning a MIME type name to a OMTD-SHARE
+data format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">text/tab-separated-values=http://w3id.org/meta-share/omtd-share/TabularFormat</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
