@@ -4,10 +4,10 @@
 - Navigation
 - Search
 - Masthead
-- Masthead › small-only
-- Masthead › medium-only
-- Masthead › large-only
-- Masthead › xlarge-up
+- Masthead › small-only
+- Masthead › medium-only
+- Masthead › large-only
+- Masthead › xlarge-up
 - Breadcrumb
 - Meta
 - Jump to top
@@ -100,7 +100,7 @@ body.video cite { color: #fff; }
     background: $primary-color;
 }
 
-/* Masthead › small-only
+/* Masthead › small-only
 ------------------------------------------------------------------- */
 
 @media #{$small-only} {
@@ -133,7 +133,7 @@ body.video cite { color: #fff; }
 }
 
 
-/* Masthead › medium-only
+/* Masthead › medium-only
 ------------------------------------------------------------------- */
 
 @media #{$medium-only} {
@@ -161,7 +161,7 @@ body.video cite { color: #fff; }
 }
 
 
-/* Masthead › large-only
+/* Masthead › large-only
 ------------------------------------------------------------------- */
 
 @media #{$large-only} {
@@ -189,7 +189,7 @@ body.video cite { color: #fff; }
 }
 
 
-/* Masthead › xlarge-up
+/* Masthead › xlarge-up
 ------------------------------------------------------------------- */
 
 @media #{$xlarge-up} {

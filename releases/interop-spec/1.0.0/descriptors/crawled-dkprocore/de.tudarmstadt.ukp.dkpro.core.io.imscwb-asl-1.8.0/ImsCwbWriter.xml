@@ -35,7 +35,7 @@ native binary CQP format via the original CWB command line tools.</description>
             <configurationParameter>
                 <name>writeDocId</name>
                 <description>Write the document ID for each token. It is usually a better idea to generate a
-#PARAM_WRITE_DOCUMENT_TAG document tag or a #PARAM_WRITE_TEXT_TAG text tag
+#PARAM_WRITE_DOCUMENT_TAG document tag or a #PARAM_WRITE_TEXT_TAG text tag
 which also contain the document ID that can be queried in CQP.</description>
                 <type>Boolean</type>
                 <multiValued>false</multiValued>
