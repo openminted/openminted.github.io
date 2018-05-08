@@ -25,18 +25,18 @@ OpenMinTeD workflows are currently built using a version of the Galaxy workflow 
 
 ### Adding Components
 
-![]workflowImage1.png)
+![](workflowImage1.png)
 
 Initially the workflow editor is blank because it doesn't contain any components. The available components are listed on the left and can be added to a workflow simply by clicking on the title of the component you wish to add.
 
 Once you have added two or more components (not forgetting that the workflow must start with the _OMTD importer_ component), then you can link them together by linking the output of one component to the input of another using the mouse to drag the connections.
 
-![]workflowImage2.png)
+![](workflowImage2.png)
 
 ### Configuring Components
 
 When a component is selected within the workflow editor, any configuration parameters that component may have will be displayed on the right hand side of the editor.
-![]workflowImage3.png)
+![](workflowImage3.png)
 
 In many cases you do not need to provide values for all the parameters as many have appropriate defaults or the parameters can be intentionally left blank, but they do allow you to modify the standard behaviour of a component (changing which model is used etc.) should you need to. See the documentation of each component for details about their configuration parameters.
 
