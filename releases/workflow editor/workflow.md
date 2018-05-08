@@ -50,6 +50,7 @@ To build a simple workflow, you must combine at least the following components:
 2. Corpora offered through OpenMinTeD are typically composed of publications in PDF format, although files of other formats are also to be expected. Therefore, depending on the type of mimetype consumed by your component, the next component in the workflow must be a converter from PDF (and optionally other formats) to the component format. For components consuming XMI files, the OMTD platform offers two converters (found in the left column under UIMA ):
   * a generic one, the _Tika Multi-Format Reader_ that extracts converts files of multiple mimetypes into XMI, and
   * a less generic one, the _PDFReader_ that extracts text from PDF and creates an XMI file.
+  
 Caution! The XMI data files that are generated in both cases use the DKPro typesystem!
 Caution!For both convertes you need to configure the pattern parameter (displayed in the right column) as follows:
  * for the _Tika Multi-Format Reader_, set the pattern to "**/*"
