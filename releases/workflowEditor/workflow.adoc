@@ -53,10 +53,9 @@ b. a less generic one, the _PDFReader_ that extracts text from PDF and creates a
 +
 --
 *Caution!* The XMI data files that are generated in both cases use the DKPro typesystem!
-+
 *Caution!* For both converters you need to configure the pattern parameter (displayed in the right column):
-- for the _Tika Multi-Format Reader_, set the pattern to "\**/*.*"
-- for the _PDFReader_, set the pattern to "\**/*.pdf".
+* for the _Tika Multi-Format Reader_, set the pattern to "\**/*.*"
+* for the _PDFReader_, set the pattern to "\**/*.pdf".
 --
 3. Next, you can add the component(s) of your choice and connect them in the order they must be executed. If you want, you can configure them.
 4. When you finish, click on the "Settings" button at the right top and select *_Save_* to save your workflow. You will be transferred to the OpenMinTeD metadata editor, where you will fill in the required metadata for the new application.
