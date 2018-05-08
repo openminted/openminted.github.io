@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>test</title><script type="text/javascript">
+//<![CDATA[
+window.__cfRocketOptions = {byc:0,p:0,petok:"275894767951f3d4dbf8464691b32fdca244b0bd-1525751663-1800"};
+//]]>
+</script>
+<script type="text/javascript" src="https://ajax.cloudflare.com/cdn-cgi/scripts/935cb224/cloudflare-static/rocket.min.js"></script>
+<style></style></head><body id="preview">
+<h1><a id="Building_applications_with_the_workflow_editor_0"></a>Building applications with the workflow editor</h1>
+<p>Applications in OpenMinTeD target end-users and can be used as is to perform TDM operations on content resources.</p>
+<p>They can be</p>
+<ul>
+<li>uploaded as a single component (as described in the <a href="https://guidelines.openminted.eu/guidelines_for_providers_of_sw_resources/sharing-software-through-openminted.html">Guidelines</a>), or</li>
+<li>built by combining together components into a workflow using the Workflow Editor, which is based on <a href="https://galaxyproject.org">Galaxy</a>.</li>
+</ul>
+<h2><a id="What_Constitutes_an_OpenMinTeD_Workflow_9"></a>What Constitutes an OpenMinTeD Workflow</h2>
+<p>An OpenMinTeD workflow is essentially a sequence of OpenMinTeD components which are executed in order over a document or corpus (set of documents).</p>
+<p>More specifically, OpenMinTeD workflows run over a corpus accessible via the OpenMinTeD Store and as such they all must start with the <strong><em>OMTD importer</em></strong> component. This component is responsible for retrieving the correct corpus from the Store when the workflow is executed. You do not need to specify a corpus when building the workflow, this is done automatically when the workflow is executed by the platform.</p>
+<p>When an application is uploaded in the platform as a single component, the <em>OMTD importer</em> is automatically added at the time of execution.</p>
+<p>In theory you can mix and match any OpenMinTeD components to build a workflow (normal Galaxy components are not supported), although, at this stage in the development of the platform, we advise sticking to components from one supported framework (GATE, DKPro Core, Argo, etc.).</p>
+<p>The output of an OpenMinTeD workflow (usually UIMA CAS documents stored as XMI files in the OpenMinTeD store, but also XML, TSV, JSON etc. files, depending on the output of the final component) is accessible via the platform once a workflow execution has completed.</p>
+<h2><a id="Using_the_Workflow_Editor_21"></a>Using the Workflow Editor</h2>
+<p>OpenMinTeD workflows are currently built using a version of the Galaxy workflow editor, although it should be noted that we don’t currently support standard Galaxy tools or workflows within OpenMinTeD.</p>
+<h3><a id="Adding_Components_25"></a>Adding Components</h3>
+<p><img src="workflowImage1.png" alt=""></p>
+<p>Initially the workflow editor is blank because it doesn’t contain any components. The available components are listed on the left and can be added to a workflow simply by clicking on the title of the component you wish to add.</p>
+<p>Once you have added two or more components (not forgetting that the workflow must start with the <em>OMTD importer</em> component), then you can link them together by linking the output of one component to the input of another using the mouse to drag the connections.</p>
+<p><img src="workflowImage2.png" alt=""></p>
+<h3><a id="Configuring_Components_35"></a>Configuring Components</h3>
+<p>When a component is selected within the workflow editor, any configuration parameters that component may have will be displayed on the right hand side of the editor.<br>
+<img src="workflowImage3.png" alt=""></p>
+<p>In many cases you do not need to provide values for all the parameters as many have appropriate defaults or the parameters can be intentionally left blank, but they do allow you to modify the standard behaviour of a component (changing which model is used etc.) should you need to. See the documentation of each component for details about their configuration parameters.</p>
+<h2><a id="Tips_for_Creating_a_Workflow_42"></a>Tips for Creating a Workflow</h2>
+<p>To build a workflow, go to the platform (<a href="https://services.openminted.eu">https://services.openminted.eu</a>), select from the top drop down menu <em><em>Add</em></em> the item <em><em>Applications</em></em> and then select the tab “Build an application with existing components” and click on “Build”.</p>
+<p>To build a simple workflow, you must combine at least the following components:</p>
+<ol>
+<li>Your first component must always be the <strong><em>OMTD Importer</em></strong>, which can be found in the left column under <em>DataImport</em>.</li>
+<li>Corpora offered through OpenMinTeD are typically composed of publications in PDF format, although files of other formats are also to be expected. Therefore, depending on the type of mimetype consumed by your component, the next component in the workflow must be a <strong>converter</strong> from PDF (and optionally other formats) to the component format. For components consuming XMI files, the OMTD platform offers two converters (found in the left column under UIMA ):</li>
+</ol>
+<ul>
+<li>a generic one, the <em>Tika Multi-Format Reader</em> that extracts converts files of multiple mimetypes into XMI, and</li>
+<li>a less generic one, the <em>PDFReader</em> that extracts text from PDF and creates an XMI file.</li>
+</ul>
+<p><strong>Caution!</strong> The XMI data files that are generated in both cases use the DKPro typesystem!</p>
+<p><strong>Caution!</strong> For both converters you need to configure the pattern parameter (displayed in the right column) as follows:</p>
+<ul>
+<li>for the <em>Tika Multi-Format Reader</em>, set the pattern to “**/*.*”</li>
+<li>for the <em>PDFReader</em>, set the pattern to “**/*.pdf”.</li>
+</ul>
+<ol start="3">
+<li>Next, you can add the component(s) of your choice and connect them in the order they must be executed. If you want, you can configure them.</li>
+<li>When you finish, click on the “Settings” button at the right top and select <strong><em>Save</em></strong> to save your workflow. You will be transferred to the OpenMinTeD metadata editor, where you will fill in the required metadata for the new application.</li>
+</ol>
+
+</body></html>
