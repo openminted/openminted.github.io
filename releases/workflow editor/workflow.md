@@ -53,8 +53,10 @@ To build a simple workflow, you must combine at least the following components:
   
 Caution! The XMI data files that are generated in both cases use the DKPro typesystem!
 
-Caution!For both convertes you need to configure the pattern parameter (displayed in the right column) as follows:
+Caution!For both converters you need to configure the pattern parameter (displayed in the right column) as follows:
+
  * for the _Tika Multi-Format Reader_, set the pattern to "**/*"
  * for the _PDFReader_, set the pattern to "**/*.pdf".
+ 
 3. Next, you can add the component(s) of your choice and connect them in the order they must be executed. If you want, you can configure them.
 4. When you finish, click on the "Settings" button at the right top and select Save to save your workflow. You will be transferred to the OpenMinTeD metadata editor, where you will fill in the required metadata for the new application.
