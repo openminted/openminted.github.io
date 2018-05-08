@@ -54,6 +54,7 @@ To build a simple workflow, you must combine at least the following components:
 *Caution!* The XMI data files that are generated in both cases use the DKPro typesystem!
 
 *Caution!* For both converters you need to configure the pattern parameter (displayed in the right column) as follows:
+
  * for the _Tika Multi-Format Reader_, set the pattern to "\**/*.*"
  * for the _PDFReader_, set the pattern to "\**/*.pdf".
 . Next, you can add the component(s) of your choice and connect them in the order they must be executed. If you want, you can configure them.
