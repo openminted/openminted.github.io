@@ -11,7 +11,7 @@ They can be
 
 An OpenMinTeD workflow is essentially a sequence of OpenMinTeD components which are executed in order over a document or corpus (set of documents).
 
-More specifically, OpenMinTeD workflows run over a corpus accessible via the OpenMinTeD Store and as such they all must start with the _OMTD importer_ component. This component is responsible for retrieving the correct corpus from the Store when the workflow is executed. You do not need to specify a corpus when building the workflow, this is done automatically when the workflow is executed by the platform.
+More specifically, OpenMinTeD workflows run over a corpus accessible via the OpenMinTeD Store and as such they all must start with the **_OMTD importer_** component. This component is responsible for retrieving the correct corpus from the Store when the workflow is executed. You do not need to specify a corpus when building the workflow, this is done automatically when the workflow is executed by the platform.
 
 When an application is uploaded in the platform as a single component, the _OMTD importer_ is automatically added at the time of execution.
 
@@ -46,17 +46,17 @@ To build a workflow, go to the platform ([https://services.openminted.eu](https:
 
 To build a simple workflow, you must combine at least the following components:
 
-1. Your first component must always be the _OMTD Importer_, which can be found in the left column under _DataImport_.
-2. Corpora offered through OpenMinTeD are typically composed of publications in PDF format, although files of other formats are also to be expected. Therefore, depending on the type of mimetype consumed by your component, the next component in the workflow must be a converter from PDF (and optionally other formats) to the component format. For components consuming XMI files, the OMTD platform offers two converters (found in the left column under UIMA ):
+1. Your first component must always be the **_OMTD Importer_**, which can be found in the left column under _DataImport_.
+2. Corpora offered through OpenMinTeD are typically composed of publications in PDF format, although files of other formats are also to be expected. Therefore, depending on the type of mimetype consumed by your component, the next component in the workflow must be a **converter** from PDF (and optionally other formats) to the component format. For components consuming XMI files, the OMTD platform offers two converters (found in the left column under UIMA ):
   * a generic one, the _Tika Multi-Format Reader_ that extracts converts files of multiple mimetypes into XMI, and
   * a less generic one, the _PDFReader_ that extracts text from PDF and creates an XMI file.
   
-Caution! The XMI data files that are generated in both cases use the DKPro typesystem!
+**Caution!** The XMI data files that are generated in both cases use the DKPro typesystem!
 
-Caution!For both converters you need to configure the pattern parameter (displayed in the right column) as follows:
+**Caution!** For both converters you need to configure the pattern parameter (displayed in the right column) as follows:
 
  * for the _Tika Multi-Format Reader_, set the pattern to "**/*"
  * for the _PDFReader_, set the pattern to "**/*.pdf".
  
 3. Next, you can add the component(s) of your choice and connect them in the order they must be executed. If you want, you can configure them.
-4. When you finish, click on the "Settings" button at the right top and select Save to save your workflow. You will be transferred to the OpenMinTeD metadata editor, where you will fill in the required metadata for the new application.
+4. When you finish, click on the "Settings" button at the right top and select **_Save_** to save your workflow. You will be transferred to the OpenMinTeD metadata editor, where you will fill in the required metadata for the new application.
