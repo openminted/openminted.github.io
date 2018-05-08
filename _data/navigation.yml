@@ -32,6 +32,9 @@
   - title: License Compatibility Matrix
     url: "/releases/license-matrix"
     side: left
+  - title: OMTD Workflow Documentation
+    url: "/releases/workflowEditor"
+    side: left
 
 - title: More
   side: left
