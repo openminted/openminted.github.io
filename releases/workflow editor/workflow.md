@@ -52,6 +52,7 @@ To build a simple workflow, you must combine at least the following components:
   * a less generic one, the _PDFReader_ that extracts text from PDF and creates an XMI file.
   
 Caution! The XMI data files that are generated in both cases use the DKPro typesystem!
+
 Caution!For both convertes you need to configure the pattern parameter (displayed in the right column) as follows:
  * for the _Tika Multi-Format Reader_, set the pattern to "**/*"
  * for the _PDFReader_, set the pattern to "**/*.pdf".
