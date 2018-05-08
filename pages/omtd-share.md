@@ -1,6 +1,6 @@
 ---
 layout: page-fullwidth
-title: "OMTD-SHARE"
+title: "OMTD-SHARE metadata schema"
 permalink: "/releases/omtd-share/"
 ---
 
