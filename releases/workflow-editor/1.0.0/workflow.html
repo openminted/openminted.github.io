@@ -530,15 +530,29 @@ image::workflowImage3.png</p>
 </li>
 <li>
 <p>a less generic one, the <em>PDFReader</em> that extracts text from PDF and creates an XMI file.</p>
-<div class="openblock">
-<div class="content">
-<div class="paragraph">
-<p><strong>Caution!</strong> The XMI data files that are generated in both cases use the DKPro typesystem!</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The XMI data files that are generated in both cases use the DKPro Core typesystem!
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p><strong>Caution!</strong> For both converters you need to configure the pattern parameter (displayed in the right column): for the <em>Tika Multi-Format Reader</em>, set the pattern to "*\*/*.*" and for <em>PDFReader</em>, set the pattern to "**/*.pdf".</p>
-</div>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For both converters you need to configure the pattern parameter (displayed in the right column): for the <em>Tika Multi-Format Reader</em>, set the pattern to <code>**/*.*</code> and for <em>PDFReader</em>, set the pattern to <code>**/*.pdf</code>.
+</td>
+</tr>
+</table>
 </div>
 </li>
 </ol>
@@ -557,7 +571,7 @@ image::workflowImage3.png</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-09 15:21:12 JST
+Last updated 2018-05-14 11:53:37 CEST
 </div>
 </div>
 </body>
