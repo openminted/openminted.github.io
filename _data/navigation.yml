@@ -14,6 +14,9 @@
   - title: OMTD-SHARE Metadata Schema
     url: "/releases/omtd-share-schema"
     side: left
+  - title: OMTD-SHARE Ontology
+    url: "/releases/omtd-share-ontology"
+    side: left
   - title: OMTD-SHARE Java Support
     url: "/releases/omtd-share-annotations"
     side: left
