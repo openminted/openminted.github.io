@@ -11,8 +11,8 @@
   dropdown:
   - title: "Interoperability Specification"
     url: "/releases/interop-spec"
-  - title: OMTD-SHARE
-    url: "/releases/omtd-share"
+  - title: OMTD-SHARE Metadata Schema
+    url: "/releases/omtd-share-schema"
     side: left
   - title: OMTD-SHARE Java Support
     url: "/releases/omtd-share-annotations"
